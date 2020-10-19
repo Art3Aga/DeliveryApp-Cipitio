@@ -10,12 +10,12 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 
 
-class HomePage extends StatefulWidget {
+class TabsPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _TabsPageState createState() => _TabsPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TabsPageState extends State<TabsPage> {
 
   int _selectedIndex = 0;
 
