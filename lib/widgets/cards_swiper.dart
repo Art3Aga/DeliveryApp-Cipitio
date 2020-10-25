@@ -1,23 +1,15 @@
-
-
-
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
-import 'package:deliveryapplicacion/vistas/menu_detalle_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CardSwiper extends StatelessWidget {
-
-
   final List<Menu> menus;
 
-  CardSwiper({ @required this.menus });
-
+  CardSwiper({@required this.menus});
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -32,7 +24,8 @@ class CardSwiper extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'menu_detalle', arguments: menus[index]);
+                  Navigator.pushNamed(context, 'menu_detalle',
+                      arguments: menus[index]);
                 },
                 child: Stack(
                   fit: StackFit.expand,
@@ -57,10 +50,9 @@ class CardSwiper extends StatelessWidget {
 
   Widget _imgMenu(Menu menu, BuildContext context) {
     return FadeInImage(
-      fit: BoxFit.cover,
-      placeholder: AssetImage('assets/no-image.jpg'), 
-      image: NetworkImage(menu.imagen)
-    );
+        fit: BoxFit.cover,
+        placeholder: AssetImage('assets/no-image.jpg'),
+        image: NetworkImage(menu.imagen));
   }
 
   Widget _tituloMenu(Size size, Menu menu) {
@@ -72,8 +64,12 @@ class CardSwiper extends StatelessWidget {
         height: size.height * 0.1,
         child: Center(
           child: Text(
-            menu.nombre, 
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic, color: Colors.black54),
+            menu.nombre,
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                color: Colors.black54),
           ),
         ),
       ),

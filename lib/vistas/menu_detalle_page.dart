@@ -4,18 +4,14 @@ import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:flutter/material.dart';
 
-
 // ignore: must_be_immutable
 class MenuDetalle extends StatelessWidget {
-
   //Menu menu;
 
   //MenuDetalle({@required menu});
 
-
   @override
   Widget build(BuildContext context) {
-
     final Menu menu = ModalRoute.of(context).settings.arguments;
     final size = MediaQuery.of(context).size;
 
@@ -24,12 +20,10 @@ class MenuDetalle extends StatelessWidget {
         slivers: [
           _crearAppBar(menu, size),
           SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                SizedBox(height: size.height * 0.01),
-                _imagenMenu(menu, size),
-              ]
-            ),
+            delegate: SliverChildListDelegate([
+              SizedBox(height: size.height * 0.01),
+              _imagenMenu(menu, size),
+            ]),
           )
         ],
       ),
@@ -47,27 +41,27 @@ class MenuDetalle extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         background: Stack(
-            fit: StackFit.expand,
-            children: [
-              FadeInImage(
-                placeholder: AssetImage('assets/loading.gif'), 
+          fit: StackFit.expand,
+          children: [
+            FadeInImage(
+                placeholder: AssetImage('assets/loading.gif'),
                 image: NetworkImage(menu.imagen),
                 fadeInDuration: Duration(microseconds: 180),
-                fit: BoxFit.cover
-              ),
-              Container(
-                color: Colors.black38,
-                width: double.infinity,
-              ),
-            ],
-          )
-        ),
+                fit: BoxFit.cover),
+            Container(
+              color: Colors.black38,
+              width: double.infinity,
+            ),
+          ],
+        )
+      ),
     );
   }
 
-  _imagenMenu(Menu menu, Size size) {    
+  _imagenMenu(Menu menu, Size size) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.02),
+      padding: EdgeInsets.symmetric(
+          horizontal: size.width * 0.05, vertical: size.height * 0.02),
       child: Row(
         children: [
           Hero(
@@ -82,19 +76,19 @@ class MenuDetalle extends StatelessWidget {
               ),
             ),
           ),
-          Flexible(
-            child: Column()
-          )
+          Flexible(child: Column())
         ],
       ),
     );
   }
 
-
   Widget _btnAddOrden(Menu menu, BuildContext context) {
     return RaisedButton(
       onPressed: () => _addPedidoToOrden(context),
-      child: Text('Agregar 1 a la Orden - \$${menu.precio}', style: TextStyle(color: Colors.white),),
+      child: Text(
+        'Agregar 1 a la Orden - \$${menu.precio}',
+        style: TextStyle(color: Colors.white),
+      ),
       color: Recursos().colorTerciario,
     );
   }

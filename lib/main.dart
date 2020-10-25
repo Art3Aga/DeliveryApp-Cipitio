@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Delivery El Cipitio',
-      initialRoute: 'login',
+      initialRoute: 'home',
       routes: {
         'home': (context) => TabsPage(),
         'login': (context) => LoginPage(),
