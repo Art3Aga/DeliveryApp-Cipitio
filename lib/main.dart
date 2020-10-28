@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         'home': (context) => TabsPage(),
         'login': (context) => LoginPage(),
         'menu_detalle': (context) => MenuDetalle(),
-        'registro': (context) => PerfilPage(),
+        'registro': (contexlt) => PerfilPage(),
       },
     );
   }

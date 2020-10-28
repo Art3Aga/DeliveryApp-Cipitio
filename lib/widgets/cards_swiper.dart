@@ -7,7 +7,6 @@ class CardSwiper extends StatelessWidget {
   final List<Menu> menus;
 
   CardSwiper({@required this.menus});
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

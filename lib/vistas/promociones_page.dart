@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'dart:math';
 
+import 'package:deliveryapplicacion/modelos/promo_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:deliveryapplicacion/widgets/grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +17,7 @@ class PromocionesPage extends StatelessWidget {
             child: Column(
               children: [
                 _title(),
-                _promos(),
+                _proms(),
               ],
             ),
           )
@@ -67,6 +69,56 @@ class PromocionesPage extends StatelessWidget {
 
 
   }*/
+  Widget _proms() {
+    final List<Promocion> proms = [
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 1',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 2',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 3',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 4',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 5',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 6',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+      Promocion(
+          idPromo: 0,
+          nombrePromo: 'pan 7',
+          precio: 4.99,
+          imagen:
+              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+    ];
+    return Grid(
+      promos: proms,
+      columns: 3,
+    );
+  }
 
   Widget _title() {
     return SafeArea(
