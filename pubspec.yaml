@@ -34,6 +34,12 @@ dependencies:
   dio:
   font_awesome_flutter:
   shared_preferences: ^0.5.2
+  geolocator:
+  permission_handler:
+  flutter_bloc:
+  google_maps_flutter:
+  animate_do:
+  polyline:
 
 dev_dependencies:
   flutter_test:

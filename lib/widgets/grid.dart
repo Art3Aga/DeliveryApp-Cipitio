@@ -78,16 +78,15 @@ class Grid extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   color: Recursos().colorTerciario,
-                  blurRadius: 10.0,
-                  spreadRadius: 2.0,
-                  offset: Offset(2.0, 10.0))
+                  blurRadius: 3.0,
+                  spreadRadius: 0.5,
+                  offset: Offset(0.0, 0.5))
             ]),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'promocion_detalle',
-                  arguments: promocion);
+              Navigator.pushNamed(context, 'promocion_detalle', arguments: promocion);
             },
             child: card,
           ),

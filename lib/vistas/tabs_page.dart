@@ -29,16 +29,6 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person, color: Recursos().colorTerciario,), onPressed: (){},
-          )
-        ],
-      ),*/
       body: Center(
         child: _menuPaginas.elementAt(_selectedIndex),
       ),

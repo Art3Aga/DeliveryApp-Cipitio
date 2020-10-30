@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-Promocion welcomeFromJson(String str) => Promocion.fromJson(json.decode(str));
+Promocion promoFromJson(String str) => Promocion.fromJson(json.decode(str));
 
-String welcomeToJson(Promocion data) => json.encode(data.toJson());
+String promoToJson(Promocion data) => json.encode(data.toJson());
 
 class Promocion {
   Promocion({
