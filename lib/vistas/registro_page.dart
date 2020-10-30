@@ -4,19 +4,21 @@ import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LoginPage extends StatefulWidget {
+class RegistroPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistroPageState createState() => _RegistroPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistroPageState extends State<RegistroPage> {
+  TextEditingController _nombreController = new TextEditingController();
   TextEditingController _telefonoController = new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _claveController = new TextEditingController();
 
   final _clientesController = new ClientesController();
-  final _storage = new StorageCliente();
+  final _storage = new StorageCliente ();
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +35,19 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     _titulo(),
-                    SizedBox(height: size.height * 0.05),
+                    SizedBox(height: size.height * 0.02),
                     _icono(size),
-                    SizedBox(height: size.height * 0.1),
-                    //_inputTelefono(size),
+                    SizedBox(height: size.height * 0.02),
+                    _inputNombre(size),
+                    _inputTelefono(size),
                     _inputEmail(size),
                     _inputClave(size),
-                    SizedBox(height: size.height * 0.15),
+                    SizedBox(height: size.height * 0.03),
                     _botonLogin(size),
-                    SizedBox(height: size.height * 0.05),
-                    _textRegistrarme(),
-                    //SizedBox(height: size.height * 0.03),
-                    //_textOlvideMiClave()
+                    SizedBox(height: size.height * 0.02),
+                    _textYaTengoUnaCuenta(),
+                    SizedBox(height: size.height * 0.02),
+                    _botonesRedes(size)
                   ],
                 ),
               ),
@@ -57,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _titulo() {
     final style = TextStyle(fontWeight: FontWeight.w900, fontSize: 29);
-    return Text('Panes El Cipitio', style: style);
+    return Text('Registro El Cipitio', style: style);
   }
 
   Widget _icono(Size size) {
@@ -74,6 +77,30 @@ class _LoginPageState extends State<LoginPage> {
       child: CircleAvatar(
         radius: size.width * 0.15,
         backgroundImage: AssetImage('assets/cipitio_icon.jpg'),
+      ),
+    );
+  }
+
+  Widget _inputNombre(Size size) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
+      child: Theme(
+        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
+        child: TextFormField(
+          textCapitalization: TextCapitalization.words,
+          controller: _nombreController,
+          decoration: InputDecoration(
+            hintText: 'Nombre',
+            suffixIcon: Icon(Icons.person),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
+              borderRadius: BorderRadius.circular(15)
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -160,10 +187,10 @@ class _LoginPageState extends State<LoginPage> {
             vertical: size.height * 0.025, horizontal: size.width * 0.2
         ),
         onPressed: () async {
-          _login();
+          _registro();
         },
         child: Text(
-          'Iniciar !',
+          'Registrarme !',
           style: TextStyle(fontSize: 18),
         ),
         color: Recursos().colorTerciario,
@@ -173,43 +200,69 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textRegistrarme() {
+  Widget _textYaTengoUnaCuenta() {
     final style = TextStyle(
       color: Colors.grey, fontSize: 15, fontStyle: FontStyle.italic,
       decoration: TextDecoration.underline
     );
     return Container(
       child: GestureDetector(
-        child: Text('¡Registrarme!', style: style),
-        onTap: () => Navigator.of(context).pushReplacementNamed('registro'),
+        child: Text('¡Ya Tengo una Cuenta!', style: style),
+        onTap: () => Navigator.of(context).pushReplacementNamed('login'),
       ),
     );
   }
 
-  Widget _textOlvideMiClave() {
-    final style = TextStyle(
-      color: Colors.grey, fontSize: 15, fontStyle: FontStyle.italic,
-      decoration: TextDecoration.underline
-    );
+
+  Widget _botonesRedes(Size size) {
     return Container(
-      child: GestureDetector(
-        child: Text('¿Olvidaste tu contraseña?', style: style),
-        onTap: () {},
+      padding: EdgeInsets.all(size.height * 0.01),
+      margin: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _botonFacebook(size),
+          _botonTwitter(size)
+        ],
       ),
     );
   }
 
-  void _login() async {
+  Widget _botonFacebook(Size size) {
+    return CircleAvatar(
+      radius: 25,
+      backgroundColor: Color.fromRGBO(59, 89, 152, 1),
+      child: GestureDetector(
+        child: FaIcon(FontAwesomeIcons.facebook, size: 30, color: Colors.white),
+        onTap: (){},
+      ),
+    );
+  }
 
-    if (_emailController.text.isEmpty || _claveController.text.isEmpty) {
+  Widget _botonTwitter(Size size) {
+    return CircleAvatar(
+      radius: 25,
+      backgroundColor: Color.fromRGBO(0, 172, 238, 1),
+      child: GestureDetector(
+        child: FaIcon(FontAwesomeIcons.twitter, size: 30, color: Colors.white),
+        onTap: (){},
+      ),
+    );
+  }
+
+  void _registro() async {
+    if (_nombreController.text.isEmpty || _telefonoController.text.isEmpty
+        || _claveController.text.isEmpty || _emailController.text.isEmpty) {
       Recursos().showMessageError(context, "Faltan Datos!");
       return;
     }
 
-    Cliente cliente = new Cliente(clave: _claveController.text, email: _emailController.text);
+    Cliente cliente = new Cliente(
+      nombre: _nombreController.text, telefono: _telefonoController.text,
+      email: _emailController.text, clave: _claveController.text
+    );
 
-    
-    final response = await this._clientesController.login(cliente);
+    final response = await this._clientesController.registro(cliente);
 
     if(response is Cliente) {
       Recursos().showMessageSuccess(
@@ -223,6 +276,7 @@ class _LoginPageState extends State<LoginPage> {
       Recursos().showMessageError(context, response);
 
     }
+
 
   }
 
