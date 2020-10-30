@@ -5,6 +5,8 @@ import 'package:deliveryapplicacion/vistas/perfil_page.dart';
 import 'package:deliveryapplicacion/vistas/menu_detalle_page.dart';
 import 'package:flutter/material.dart';
 
+import 'vistas/promociones_page.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
         'login': (context) => LoginPage(),
         'menu_detalle': (context) => MenuDetalle(),
         'registro': (contexlt) => PerfilPage(),
+        'promocion_detalle': (contexlt) => PromocionesPage(),
       },
     );
   }

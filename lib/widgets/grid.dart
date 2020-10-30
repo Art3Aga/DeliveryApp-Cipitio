@@ -86,7 +86,7 @@ class Grid extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'promo_detalle',
+              Navigator.pushNamed(context, 'promocion_detalle',
                   arguments: promocion);
             },
             child: card,
