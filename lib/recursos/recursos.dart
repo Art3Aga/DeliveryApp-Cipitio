@@ -37,6 +37,28 @@ class Recursos {
   }
 
 
+  showMessageConfirmar(BuildContext context, Function callback, [String titulo, String subtitulo]) {
+    SweetAlert.show(
+      context,
+      title: titulo,
+      subtitle: subtitulo,
+      style: SweetAlertStyle.confirm,
+      showCancelButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Si',
+      onPress: (confirmar) {
+        if(confirmar) {
+          callback();
+        }
+        else {
+          return true;
+        }
+        return false; //Mantener el Dialog
+      }
+    );
+  }
+
+
 
 
 }

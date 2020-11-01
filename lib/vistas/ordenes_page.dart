@@ -14,8 +14,15 @@ class OrdenesPage extends StatelessWidget {
 
   OrdenesPage({@required this.activarAppBar});
 
-  final _ordenesController = new OrdenesController();
+  /*@override
+  _OrdenesPageState createState() => _OrdenesPageState();
+}
 
+class _OrdenesPageState extends State<OrdenesPage> {*/
+
+
+  final _ordenesController = new OrdenesController();
+  double _total = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +35,12 @@ class OrdenesPage extends StatelessWidget {
       body: ListView(
         children: [
           _title(),
-          _body(size, context)
+          _body(size, context),
+          _subTotal(size),
+          _btnCancelarOrden(context, size)
         ],
-      )
+      ),
+      floatingActionButton: _btnProcesarOrden(size),
     );
   }
 
@@ -147,7 +157,6 @@ class OrdenesPage extends StatelessWidget {
     );
   }
 
-
   Widget _popupOpcionesOrden(Size size, Orden orden) {
     return PopupMenuButton(
       icon: Icon(Icons.more_vert),
@@ -165,6 +174,76 @@ class OrdenesPage extends StatelessWidget {
       ]
     );
   }
+
+  Widget _btnCancelarOrden(BuildContext context, Size size) {
+    return StreamBuilder<List<Orden>>(
+      stream: _ordenesController.ordenesStream,
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+
+          List<Orden> ordenes = snapshot.data;
+
+          return ordenes.length > 0 ? Container(
+            margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: size.height * 0.05),
+            child: FlatButton(
+              splashColor: Recursos().colorSecundario,
+              child: Text('Cancelar Orden'),
+              onPressed: () {
+                Recursos().showMessageConfirmar(context, () => _cancelarOrden(context), 'Cancelar Orden', '¿Está seguro que desea cancelar la orden?');
+              },
+              color: Recursos().colorPrimario,
+              textColor: Colors.white,
+            ),
+          ) : Container();
+        }
+        else {
+          return Center(child: CupertinoActivityIndicator(radius: 25));
+        }
+      }
+    );
+  }
+
+  void _cancelarOrden(BuildContext context) {
+    _ordenesController.cancelarOrden();
+    Navigator.of(context).pop();
+  }
+
+  Widget _btnProcesarOrden(Size size) {
+    return Container(
+      child: MaterialButton(
+        child: Text('Procesar Orden'),
+        onPressed: (){},
+        color: Recursos().colorPrimario,
+        textColor: Colors.white,
+        splashColor: Recursos().colorSecundario,
+      ),
+    );
+  }
+
+  Widget _subTotal(Size size) {
+
+    /*return ListTile(
+      title: Text('Total: ${_total.toStringAsFixed(2)}'),
+    );*/
+    return StreamBuilder<double>(
+      stream: _ordenesController.totalStream,
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+          double total = snapshot.data;
+          return total > 0 ? ListTile(
+            title: Text('Total: ${total.toStringAsFixed(2)}'),
+          ) : Container();
+        }
+        else {
+          return Container();
+        }
+      }
+    );
+  }
+
+
+  
+
 
 
 }

@@ -207,7 +207,7 @@ class PerfilPage extends StatelessWidget {
           ),
         ),
       ),
-      leading: Icon(Icons.list_alt, color: Recursos().colorPrimario),
+      leading: Icon(Icons.list, color: Recursos().colorPrimario),
       trailing: Icon(Icons.chevron_right, color: Recursos().colorPrimario),
       onTap: () {
         Navigator.push(

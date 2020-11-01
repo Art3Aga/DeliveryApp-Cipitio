@@ -246,7 +246,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
           _addPedidoToOrden(context, menu);
         },
         child: Text(
-          'Agregar ${this._cantidad} a la Orden - \$${menu.precio * this._cantidad}',
+          'Agregar ${this._cantidad} a la Orden - \$${(menu.precio * this._cantidad).toStringAsFixed(2)}',
           style: TextStyle(color: Colors.white),
         ),
         color: Recursos().colorTerciario,
@@ -268,7 +268,6 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
 
     await _ordenesController.addOrden(orden);
-    print(orden.toJson());
 
     //Recursos().showMessageSuccess(context, '   Agregado a la Orden!\nDirigase al apartado de\n           "Ordenes"', () {
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {

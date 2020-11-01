@@ -83,6 +83,13 @@ class DBSQliteService {
     return cantidadOrdenes;
   }
 
+  Future<double> totalPrecioOrden() async {
+    final db = await database;
+    final response = await db.rawQuery('SELECT SUM(precio_orden) AS total FROM Ordenes');
+    double total = response.isNotEmpty ? response[0]['total'] : 0.0;
+    return total;
+  }
+
   //UPDATE
   Future<int> updateOrden(Orden orden) async {
     final db = await database;
@@ -94,6 +101,12 @@ class DBSQliteService {
   Future<int> deleteOrden(int idOrden) async {
     final db = await database;
     final response = await db.rawDelete('DELETE FROM Ordenes WHERE id_orden = $idOrden');
+    return response;
+  }
+
+  Future<int> deleteOrdenes() async {
+    final db = await database;
+    final response = await db.rawDelete('DELETE FROM Ordenes');
     return response;
   }
 

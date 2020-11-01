@@ -21,12 +21,15 @@ class OrdenesController {
 
   //Propiedades
   final _ordenesController = StreamController<List<Orden>>.broadcast();
+  final _totalController = StreamController<double>.broadcast();
 
   Stream<List<Orden>> get ordenesStream => _ordenesController.stream;
+  Stream<double> get totalStream => _totalController.stream;
 
 
   getOrdenes() async {
     _ordenesController.sink.add(await DBSQliteService.db.getOrdenes());
+    getTotalPrecio();
   }
 
   addOrden(Orden orden) async {
@@ -44,11 +47,21 @@ class OrdenesController {
     getOrdenes();
   }
 
+  cancelarOrden() async {
+    await DBSQliteService.db.deleteOrdenes();
+    getOrdenes();
+  }
+
+  getTotalPrecio() async {
+    _totalController.sink.add(await DBSQliteService.db.totalPrecioOrden());
+  }
+
 
 
 
   dispose() {
     _ordenesController?.close();
+    _totalController?.close();
   }
 
 

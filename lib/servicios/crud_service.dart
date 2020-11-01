@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class Crud {
 
   final _dio = new Dio();
-  final _url = 'http://192.168.1.7:3000';
+  final _url = 'http://192.168.1.26:3000';
 
 
 

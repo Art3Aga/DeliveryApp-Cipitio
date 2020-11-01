@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EditPass extends StatelessWidget {
   TextEditingController _password_controller = new TextEditingController();
@@ -117,7 +118,8 @@ class EditPass extends StatelessWidget {
   Widget _icono(Size size) {
     return Container(
       child: Icon(
-        Icons.admin_panel_settings_rounded,
+        //Icons.admin_panel_settings_rounded,
+        FontAwesomeIcons.edit,
         color: Recursos().colorPrimario,
         size: 100.0,
       ),
