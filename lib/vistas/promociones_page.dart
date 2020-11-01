@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'dart:math';
-
 import 'package:deliveryapplicacion/modelos/promo_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/widgets/grid.dart';
@@ -11,7 +9,12 @@ class PromocionesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: ListView(
+        children: [
+          _title(),
+          _proms(),
+        ],
+      )/*Stack(
         children: [
           SingleChildScrollView(
             child: Column(
@@ -22,7 +25,7 @@ class PromocionesPage extends StatelessWidget {
             ),
           )
         ],
-      ),
+      ),*/
     );
   }
 

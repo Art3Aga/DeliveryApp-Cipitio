@@ -1,6 +1,7 @@
 
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/vistas/menus_page.dart';
+import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:deliveryapplicacion/vistas/perfil_page.dart';
 import 'package:deliveryapplicacion/vistas/promociones_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,7 @@ class _TabsPageState extends State<TabsPage> {
   List<Widget> _menuPaginas = <Widget>[
     MenusPage(),
     PromocionesPage(),
-    Container(),
+    OrdenesPage(activarAppBar: false),
     PerfilPage(),
   ];
 

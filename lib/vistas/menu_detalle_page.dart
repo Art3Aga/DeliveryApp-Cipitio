@@ -1,7 +1,10 @@
 import 'dart:ui';
 
+import 'package:deliveryapplicacion/controladores/ordenes_controller.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:deliveryapplicacion/servicios/db_sqlite_service.dart';
+import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -15,6 +18,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
 
   TextEditingController _notaController = new TextEditingController();
   int _cantidad = 1;
+  final _ordenesController = new OrdenesController();
 
   @override
   Widget build(BuildContext context) {
@@ -237,9 +241,10 @@ class _MenuDetalleState extends State<MenuDetalle> {
     return Container(
       width: size.width,
       margin: EdgeInsets.only(left: size.width * 0.09),
-      //margin: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.12),
       child: RaisedButton(
-        onPressed: () => _addPedidoToOrden(context),
+        onPressed: () async {
+          _addPedidoToOrden(context, menu);
+        },
         child: Text(
           'Agregar ${this._cantidad} a la Orden - \$${menu.precio * this._cantidad}',
           style: TextStyle(color: Colors.white),
@@ -249,9 +254,28 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
   }
 
-  void _addPedidoToOrden(BuildContext context) {
+  void _addPedidoToOrden(BuildContext context, Menu menu) async {
+
+
+    Orden orden = new Orden(
+      idMenu: menu.idMenu,
+      nombre: menu.nombre,
+      descripcion: menu.descripcion,
+      imagen: menu.imagen,
+      precio: menu.precio,
+      cantidad: this._cantidad,
+      precioOrden: menu.precio * this._cantidad
+    );
+
+    await _ordenesController.addOrden(orden);
+    print(orden.toJson());
+
+    //Recursos().showMessageSuccess(context, '   Agregado a la Orden!\nDirigase al apartado de\n           "Ordenes"', () {
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OrdenesPage(activarAppBar: true)
+      ));
     });
   }
 

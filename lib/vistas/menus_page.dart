@@ -1,5 +1,6 @@
 
 
+import 'package:animate_do/animate_do.dart';
 import 'package:deliveryapplicacion/buscadores/buscar_menus.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/widgets/cards_swiper.dart';
@@ -62,16 +63,18 @@ class MenusPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: size.height * 0.025),
         child: Align(
           alignment: Alignment.topCenter,
-          child: Container(
-            height: size.height * 0.05,
-            width: double.infinity,
-            child: _inputSearchBar(size, context),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(220, 231, 227, 0.85),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(0,5))
-              ]
+          child: BounceInDown(
+            child: Container(
+              height: size.height * 0.05,
+              width: double.infinity,
+              child: _inputSearchBar(size, context),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(220, 231, 227, 0.85),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(0,5))
+                ]
+              ),
             ),
           ),
         ),
