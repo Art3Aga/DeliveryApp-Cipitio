@@ -1,4 +1,5 @@
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:deliveryapplicacion/vistas/edit_dir_page.dart';
 import 'package:deliveryapplicacion/vistas/edit_pass_page.dart';
 import 'package:deliveryapplicacion/vistas/edit_phone_page.dart';
 import 'package:deliveryapplicacion/vistas/pedidos_history_page.dart';
@@ -148,6 +149,10 @@ class PerfilPage extends StatelessWidget {
           Divider(
             color: Recursos().colorPrimario,
           ),
+          _direcciones(context),
+          Divider(
+            color: Recursos().colorPrimario,
+          ),
         ],
       ),
     );
@@ -212,6 +217,27 @@ class PerfilPage extends StatelessWidget {
       onTap: () {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => PedidosHistory()));
+      },
+    );
+  }
+
+  Widget _direcciones(BuildContext context) {
+    return ListTile(
+      title: Container(
+        child: Text(
+          'Administra tus direcciones',
+          style: TextStyle(
+            color: Recursos().colorPrimario,
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      leading: Icon(Icons.gps_fixed, color: Recursos().colorPrimario),
+      trailing: Icon(Icons.chevron_right, color: Recursos().colorPrimario),
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AdministrarUbicacion()));
       },
     );
   }
