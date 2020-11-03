@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 
+// ignore: must_be_immutable
 class AgregarDireccion extends StatelessWidget {
   TextEditingController _direccion_controller = new TextEditingController();
 
@@ -70,7 +71,8 @@ class AgregarDireccion extends StatelessWidget {
   Widget _icono(Size size) {
     return Container(
       child: Icon(
-        Icons.maps_ugc_rounded,
+        Icons.map,
+        //Icons.maps_ugc_rounded,
         color: Recursos().colorPrimario,
         size: 100.0,
       ),

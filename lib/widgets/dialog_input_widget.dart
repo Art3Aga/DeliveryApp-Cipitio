@@ -69,7 +69,6 @@ class DialogInput extends StatelessWidget {
     _ubicacionClienteController.addDireccion(_direccionController.text);
     _ubicacionClienteController.addReferencia(_referenciaController.text);
     Navigator.of(context).pop();
-    //Recursos().showMessageSuccess(context, 'Ubicacion Guardada!', () => Navigator.of(context).pop(), _direccionController.text);
     Recursos().showMessageSuccess(context, 'Ubicacion Guardada!', (){}, 'La Ubicación ${_direccionController.text} estará en su perfil!');
   }
 

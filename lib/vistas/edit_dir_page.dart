@@ -13,17 +13,18 @@ class AdministrarUbicacion extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          _title(),
+          _title(size),
+          _listaDirecciones(size)
         ],
       ),
-      floatingActionButton: _boton_agregar(context),
+      floatingActionButton: _botonAgregar(context),
     );
   }
 
-  Widget _title() {
+  Widget _title(Size size) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(size.width * 0.05),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -32,7 +33,7 @@ class AdministrarUbicacion extends StatelessWidget {
                     color: Recursos().colorTerciario,
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold)),
-            SizedBox(height: 10.0),
+            SizedBox(height: size.height * 0.02),
             Text('El Cipitio',
                 style: TextStyle(
                     color: Recursos().colorTerciario, fontSize: 14.0)),
@@ -42,7 +43,16 @@ class AdministrarUbicacion extends StatelessWidget {
     );
   }
 
-  Widget _boton_agregar(BuildContext context) {
+
+  Widget _listaDirecciones(Size size) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 2,
+      itemBuilder: (context, i) => _itemDireccion()
+    );
+  }
+
+  Widget _botonAgregar(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: FloatingActionButton(
@@ -55,6 +65,16 @@ class AdministrarUbicacion extends StatelessWidget {
         ),
         backgroundColor: Recursos().colorPrimario,
       ),
+    );
+  }
+
+  Widget _itemDireccion() {
+    return ListTile(
+      onTap: (){},
+      leading: Icon(Icons.pin_drop),
+      trailing: Icon(Icons.more_vert),
+      title: Text('Casita'),
+      subtitle: Text('Cerca del Mercadito'),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:deliveryapplicacion/controladores/ordenes_controller.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
@@ -64,18 +65,20 @@ class _MenuDetalleState extends State<MenuDetalle> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('30', style: styleMinutos),
-                Text('Min', style: styleMin),
-              ],
+          child: JelloIn(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('30', style: styleMinutos),
+                  Text('Min', style: styleMin),
+                ],
+              ),
+              width: 80,
+              height: 60,
+              color: Recursos().colorSecundario
             ),
-            width: 80,
-            height: 60,
-            color: Recursos().colorSecundario
           ),
         ),
       ],
@@ -89,6 +92,9 @@ class _MenuDetalleState extends State<MenuDetalle> {
       expandedHeight: size.height * 0.35,
       floating: false,
       pinned: true,
+      actions: [
+        IconButton(icon: Icon(Icons.share), onPressed: _compartir)
+      ],
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         background: Stack(
@@ -104,7 +110,8 @@ class _MenuDetalleState extends State<MenuDetalle> {
               color: Colors.black38,
               width: double.infinity,
             ),
-            _cuadroTiempoEntrega(size)
+            _cuadroTiempoEntrega(size),
+            //_btnCompartir(),
           ],
         )
       ),
@@ -117,13 +124,15 @@ class _MenuDetalleState extends State<MenuDetalle> {
           horizontal: size.width * 0.05, vertical: size.height * 0.02),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image(
-              image: NetworkImage(menu.imagen),
-              height: size.height * 0.2,
-              width: size.height * 0.15,
-              fit: BoxFit.cover,
+          FadeInLeft(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                image: NetworkImage(menu.imagen),
+                height: size.height * 0.2,
+                width: size.height * 0.15,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           _nombrePrecioMenu(size, menu)
@@ -292,5 +301,21 @@ class _MenuDetalleState extends State<MenuDetalle> {
     setState(() {
       
     });
+  }
+
+  Widget _btnCompartir() {
+    return SafeArea(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(icon: Icon(Icons.share), onPressed: _compartir, color: Colors.white),
+        ],
+      ),
+    );
+  }
+
+  void _compartir() {
+
   }
 }

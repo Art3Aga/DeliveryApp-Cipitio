@@ -4,8 +4,6 @@ import 'package:deliveryapplicacion/vistas/acceso_gps_page.dart';
 import 'package:deliveryapplicacion/vistas/loading_page.dart';
 import 'package:deliveryapplicacion/vistas/login_page.dart';
 import 'package:deliveryapplicacion/vistas/mapa_add_direccion_page.dart';
-import 'package:deliveryapplicacion/vistas/nueva_direccion_page.dart';
-import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:deliveryapplicacion/vistas/promociones_detalle_page.dart';
 import 'package:deliveryapplicacion/vistas/tabs_page.dart';
 import 'package:deliveryapplicacion/vistas/registro_page.dart';
@@ -29,9 +27,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primaryColor: Recursos().colorPrimario),
       debugShowCheckedModeBanner: false,
-      title: 'home',
+      title: 'Delivery Cipitio',
       initialRoute:
-          'home', //storage.emailStorage == '' ? 'registro' : 'loading',
+          'registro', //storage.emailStorage == '' ? 'registro' : 'loading',
       routes: {
         'home': (context) => TabsPage(),
         'registro': (context) => RegistroPage(),

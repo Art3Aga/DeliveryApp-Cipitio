@@ -77,7 +77,9 @@ class _MapaAddDireccionState extends State<MapaAddDireccion> {
       onMapCreated: (controller) {
         _mapController = controller;
       },
-      onCameraMove: (cameraPosition) {},
+      onCameraMove: (cameraPosition) {
+        _ubicacionClienteController.addCoordenadas(cameraPosition.target);
+      },
     );
   }
 

@@ -25,12 +25,13 @@ class UbicacionClienteController {
   final _ubicacionController = new StreamController<LatLng>.broadcast();
   final _direccionController = new StreamController<String>.broadcast();
   final _referenciaController = new StreamController<String>.broadcast();
-  bool confirmoDireccion = false;
+  final _coordenadasController = new StreamController<LatLng>.broadcast();
 
 
   Stream<LatLng> get ubicacionStream => _ubicacionController.stream;
   Stream<String> get direccionStream => _direccionController.stream;
   Stream<String> get referenciaStream => _referenciaController.stream;
+  Stream<LatLng> get coordenadasStream => _coordenadasController.stream;
 
   startSeguimiento() async {
 
@@ -43,17 +44,21 @@ class UbicacionClienteController {
 
   addDireccion(String direccion) {
     _direccionController.sink.add(direccion);
-    confirmoDireccion = true;
   }
 
   addReferencia(String referencia) {
     _referenciaController.sink.add(referencia);
+  }
+  
+  addCoordenadas(LatLng coordenadas) {
+    _coordenadasController.sink.add(coordenadas);
   }
 
   dispose() {
     _ubicacionController?.close();
     _direccionController?.close();
     _referenciaController?.close();
+    _coordenadasController?.close();
   }
 
 }
