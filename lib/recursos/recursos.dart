@@ -14,14 +14,16 @@ class Recursos {
 
 
 
-  showMessageSuccess(BuildContext context, String titulo, Function callback) {
+  showMessageSuccess(BuildContext context, String titulo, Function callback, [String subtitulo]) {
     SweetAlert.show(
       context,
       title: titulo,
+      subtitle: subtitulo,
       style: SweetAlertStyle.success,
       onPress: (confirmar) {
         if(confirmar) {
           callback();
+          return true;
         }
         return false; //Mantener el Dialog
       }

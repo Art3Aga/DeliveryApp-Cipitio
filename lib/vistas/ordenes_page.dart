@@ -14,15 +14,7 @@ class OrdenesPage extends StatelessWidget {
 
   OrdenesPage({@required this.activarAppBar});
 
-  /*@override
-  _OrdenesPageState createState() => _OrdenesPageState();
-}
-
-class _OrdenesPageState extends State<OrdenesPage> {*/
-
-
   final _ordenesController = new OrdenesController();
-  double _total = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -209,14 +201,23 @@ class _OrdenesPageState extends State<OrdenesPage> {*/
   }
 
   Widget _btnProcesarOrden(Size size) {
-    return Container(
-      child: MaterialButton(
-        child: Text('Procesar Orden'),
-        onPressed: (){},
-        color: Recursos().colorPrimario,
-        textColor: Colors.white,
-        splashColor: Recursos().colorSecundario,
-      ),
+    return StreamBuilder<double>(
+      stream: _ordenesController.totalStream,
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+          double total = snapshot.data;
+          return total > 0 ? Container(
+            child: MaterialButton(
+              child: Text('Procesar Orden'),
+              onPressed: (){},
+              color: Recursos().colorPrimario,
+              textColor: Colors.white,
+              splashColor: Recursos().colorSecundario,
+            ),
+          ) : Container();
+        }
+        else return Container();
+      }
     );
   }
 

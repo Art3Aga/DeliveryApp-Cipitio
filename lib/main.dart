@@ -4,6 +4,8 @@ import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/acceso_gps_page.dart';
 import 'package:deliveryapplicacion/vistas/loading_page.dart';
 import 'package:deliveryapplicacion/vistas/login_page.dart';
+import 'package:deliveryapplicacion/vistas/mapa_add_direccion_page.dart';
+import 'package:deliveryapplicacion/vistas/nueva_direccion_page.dart';
 import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:deliveryapplicacion/vistas/promociones_detalle_page.dart';
 import 'package:deliveryapplicacion/vistas/tabs_page.dart';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Delivery El Cipitio',
-      initialRoute:  'home', //storage.emailStorage == '' ? 'registro' : 'loading',
+      initialRoute:  'registro', //storage.emailStorage == '' ? 'registro' : 'loading',
       routes: {
         'home': (context) => TabsPage(),
         'registro': (context) => RegistroPage(),
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         'acceso_gps': (context) => AccessoGpsPage(),
         'promocion_detalle': (context) => PromocionesDetalle(),
         'loading': (context) => LoadingPage(),
-        //'ordenes': (context) => OrdenesPage(),
+        'nueva_direccion': (context) => MapaAddDireccion(),
       },
     );
   }

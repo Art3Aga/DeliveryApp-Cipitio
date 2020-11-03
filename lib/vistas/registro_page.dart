@@ -1,7 +1,9 @@
 import 'package:deliveryapplicacion/controladores/clientes_controller.dart';
+import 'package:deliveryapplicacion/controladores/ubicacion_cliente_controller.dart';
 import 'package:deliveryapplicacion/modelos/cliente_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:deliveryapplicacion/widgets/input_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +18,8 @@ class _RegistroPageState extends State<RegistroPage> {
   TextEditingController _telefonoController = new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _claveController = new TextEditingController();
+  TextEditingController _direccionesController = new TextEditingController();
+  final _ubicacionClienteController = new UbicacionClienteController();
 
   final _clientesController = new ClientesController();
   final _storage = new StorageCliente ();
@@ -35,14 +39,15 @@ class _RegistroPageState extends State<RegistroPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     _titulo(),
-                    SizedBox(height: size.height * 0.02),
+                    SizedBox(height: size.height * 0.01),
                     _icono(size),
+                    SizedBox(height: size.height * 0.01),
+                    Input(icon: Icons.person, placeholder: 'Nombre', textController: _nombreController),
+                    Input(icon: Icons.phone, placeholder: 'Telefono', textController: _telefonoController, keyboardType: TextInputType.phone),
+                    Input(icon: Icons.email, placeholder: 'Email', textController: _emailController, keyboardType: TextInputType.emailAddress, textCapitalization: TextCapitalization.none),
+                    Input(icon: Icons.fiber_pin, placeholder: 'Clave', textController: _claveController, isPassword: true, textCapitalization: TextCapitalization.none),
+                    _inputDireccionEnvio(),
                     SizedBox(height: size.height * 0.02),
-                    _inputNombre(size),
-                    _inputTelefono(size),
-                    _inputEmail(size),
-                    _inputClave(size),
-                    SizedBox(height: size.height * 0.03),
                     _botonLogin(size),
                     SizedBox(height: size.height * 0.02),
                     _textYaTengoUnaCuenta(),
@@ -58,6 +63,22 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
+  Widget _inputDireccionEnvio() {
+    return StreamBuilder<String>(
+      stream: _ubicacionClienteController.direccionStream,
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+          String direccion = snapshot.data;
+          _direccionesController.text = direccion;
+          return Input(icon: Icons.directions, placeholder: 'Direccion Envío', textController: _direccionesController, readOnly: true, onTap: _navegarDirecciones);
+        }
+        else {
+          return Input(icon: Icons.directions, placeholder: 'Direccion Envío', textController: _direccionesController, readOnly: true, onTap: _navegarDirecciones);
+        }
+      }
+    );
+  }
+
   Widget _titulo() {
     final style = TextStyle(fontWeight: FontWeight.w900, fontSize: 29);
     return Text('Registro El Cipitio', style: style);
@@ -66,14 +87,17 @@ class _RegistroPageState extends State<RegistroPage> {
   Widget _icono(Size size) {
     return Container(
       decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(50), boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 3,
-          blurRadius: 11,
-          offset: Offset(0, 3),
+        BoxDecoration(
+          borderRadius: BorderRadius.circular(50), 
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 11,
+              offset: Offset(0, 3),
+            ),
+          ]
         ),
-      ]),
       child: CircleAvatar(
         radius: size.width * 0.15,
         backgroundImage: AssetImage('assets/cipitio_icon.jpg'),
@@ -81,102 +105,9 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  Widget _inputNombre(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          textCapitalization: TextCapitalization.words,
-          controller: _nombreController,
-          decoration: InputDecoration(
-            hintText: 'Nombre',
-            suffixIcon: Icon(Icons.person),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _inputTelefono(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          textCapitalization: TextCapitalization.words,
-          controller: _telefonoController,
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(
-            hintText: 'Telefono',
-            suffixIcon: Icon(Icons.phone),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _inputEmail(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          controller: _emailController,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            hintText: 'Email',
-            suffixIcon: Icon(Icons.email),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _inputClave(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          controller: _claveController,
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Clave',
-            suffixIcon: Icon(Icons.fiber_pin),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
+  void _navegarDirecciones() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    Navigator.of(context).pushNamed('nueva_direccion');
   }
 
   Widget _botonLogin(Size size) {
@@ -184,7 +115,7 @@ class _RegistroPageState extends State<RegistroPage> {
       borderRadius: BorderRadius.circular(10),
       child: MaterialButton(
         padding: EdgeInsets.symmetric(
-            vertical: size.height * 0.025, horizontal: size.width * 0.2
+          vertical: size.height * 0.025, horizontal: size.width * 0.2
         ),
         onPressed: () async {
           _registro();
@@ -268,7 +199,7 @@ class _RegistroPageState extends State<RegistroPage> {
       Recursos().showMessageSuccess(
         context, "Bienvenido ${response.nombre}", () {
         _storage.emailStorage = response.email;
-        Navigator.of(context).pushReplacementNamed('home');
+        Navigator.of(context).pushReplacementNamed('loading');
       });
     }
     else if (response is String) {
@@ -279,6 +210,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
 
   }
+
 
 
 }

@@ -2,6 +2,7 @@ import 'package:deliveryapplicacion/controladores/clientes_controller.dart';
 import 'package:deliveryapplicacion/modelos/cliente_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:deliveryapplicacion/widgets/input_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -36,9 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: size.height * 0.05),
                     _icono(size),
                     SizedBox(height: size.height * 0.1),
-                    //_inputTelefono(size),
-                    _inputEmail(size),
-                    _inputClave(size),
+                    Input(icon: Icons.email, placeholder: 'Email', textController: _emailController, keyboardType: TextInputType.emailAddress, textCapitalization: TextCapitalization.none),
+                    Input(icon: Icons.fiber_pin, placeholder: 'Clave', textController: _claveController, isPassword: true),
                     SizedBox(height: size.height * 0.15),
                     _botonLogin(size),
                     SizedBox(height: size.height * 0.05),
@@ -74,80 +74,6 @@ class _LoginPageState extends State<LoginPage> {
       child: CircleAvatar(
         radius: size.width * 0.15,
         backgroundImage: AssetImage('assets/cipitio_icon.jpg'),
-      ),
-    );
-  }
-
-  Widget _inputTelefono(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          textCapitalization: TextCapitalization.words,
-          controller: _telefonoController,
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(
-            hintText: 'Telefono',
-            suffixIcon: Icon(Icons.phone),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _inputEmail(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          controller: _emailController,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            hintText: 'Email',
-            suffixIcon: Icon(Icons.email),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _inputClave(Size size) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: size.height * 0.015, horizontal: size.width * 0.1),
-      child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
-        child: TextFormField(
-          controller: _claveController,
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Clave',
-            suffixIcon: Icon(Icons.fiber_pin),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Recursos().colorPrimario, width: 2),
-              borderRadius: BorderRadius.circular(15)
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -215,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
       Recursos().showMessageSuccess(
         context, "Bienvenido ${response.nombre}", () {
         _storage.emailStorage = response.email;
-        Navigator.of(context).pushReplacementNamed('home');
+        Navigator.of(context).pushReplacementNamed('loading');
       });
     }
     else if (response is String) {
