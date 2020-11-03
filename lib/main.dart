@@ -1,4 +1,3 @@
-
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/acceso_gps_page.dart';
@@ -25,16 +24,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final storage = new StorageCliente();
 
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Recursos().colorPrimario
-      ),
+      theme: ThemeData(primaryColor: Recursos().colorPrimario),
       debugShowCheckedModeBanner: false,
-      title: 'Delivery El Cipitio',
-      initialRoute:  'registro', //storage.emailStorage == '' ? 'registro' : 'loading',
+      title: 'home',
+      initialRoute:
+          'home', //storage.emailStorage == '' ? 'registro' : 'loading',
       routes: {
         'home': (context) => TabsPage(),
         'registro': (context) => RegistroPage(),
