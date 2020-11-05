@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sweetalert/sweetalert.dart';
 
 class Recursos {
@@ -14,7 +15,7 @@ class Recursos {
 
 
 
-  showMessageSuccess(BuildContext context, String titulo, Function callback, [String subtitulo]) {
+  showMessageSuccess(BuildContext context, String titulo, Function callback, [String subtitulo, bool returnTrue = false]) {
     SweetAlert.show(
       context,
       title: titulo,
@@ -23,7 +24,7 @@ class Recursos {
       onPress: (confirmar) {
         if(confirmar) {
           callback();
-          return true;
+          return returnTrue ? true : false;
         }
         return false; //Mantener el Dialog
       }
@@ -58,6 +59,17 @@ class Recursos {
         return false; //Mantener el Dialog
       }
     );
+  }
+
+
+  mostrarDialog(Widget widget, BuildContext context, double width, double height) {
+    final dialog = Dialog(
+      child: Container(width: width, height: height, child: widget),
+      insetAnimationCurve: Curves.easeIn,
+      insetAnimationDuration: Duration(milliseconds: 500),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+    );
+    showDialog(context: context, builder: (_) => dialog);
   }
 
 

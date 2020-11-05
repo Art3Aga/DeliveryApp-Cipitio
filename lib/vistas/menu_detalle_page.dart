@@ -277,8 +277,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
 
     await _ordenesController.addOrden(orden);
-
-    //Recursos().showMessageSuccess(context, '   Agregado a la Orden!\nDirigase al apartado de\n           "Ordenes"', () {
+    
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(

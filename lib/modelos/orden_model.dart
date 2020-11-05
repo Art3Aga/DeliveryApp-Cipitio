@@ -16,8 +16,8 @@ class Orden {
         this.precioOrden,
     });
 
-    int idOrden;
-    int idMenu;
+    String idOrden;
+    String idMenu;
     String nombre;
     String descripcion;
     double precio;

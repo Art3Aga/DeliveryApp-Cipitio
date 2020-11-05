@@ -13,7 +13,7 @@ class Promocion {
     this.imagen,
   });
 
-  int idPromo;
+  String idPromo;
   String nombrePromo;
   String descripcionPromo;
   double precio;

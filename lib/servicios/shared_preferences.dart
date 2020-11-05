@@ -17,7 +17,25 @@ class StorageCliente {
     this._storage = await SharedPreferences.getInstance();
   }
 
-  // GET y SET Email del Cliente
+  // ID Cliente
+  String get idClienteStorage {
+    return _storage.getString('id_cliente') ?? '';
+  }
+
+  set idClienteStorage( String idCliente ) {
+    _storage.setString('id_cliente', idCliente);
+  }
+
+  // Nombre Cliente
+  String get nombreStorage {
+    return _storage.getString('nombre') ?? '';
+  }
+
+  set nombreStorage( String nombre ) {
+    _storage.setString('nombre', nombre);
+  }
+
+  // Email del Cliente
   String get emailStorage {
     return _storage.getString('email') ?? '';
   }

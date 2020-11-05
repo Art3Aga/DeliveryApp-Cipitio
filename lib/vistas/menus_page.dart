@@ -111,10 +111,10 @@ class MenusPage extends StatelessWidget {
 
   Widget _swiperTarjetas(Size size) {
     final List<Menu> menus = [
-      Menu(idMenu: 1, nombre: "Menu 1", descripcion: "Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1", precio: 1.99, imagen: "https://d1ralsognjng37.cloudfront.net/939dd856-2cbe-4226-9246-b790337190d9.jpeg"),
-      Menu(idMenu: 2, nombre: "Menu 2", descripcion: "Descripcion del Menu N° 2", precio: 2.99, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117826099_1164528353913227_4355133303312654781_o.jpg?_nc_cat=111&_nc_sid=8bfeb9&_nc_ohc=kcFhDkTyz8sAX8Z6jUw&_nc_ht=scontent.fsal3-1.fna&oh=6d021ab23c15a86f2c2f37f4f3717670&oe=5FB2709C"),
-      Menu(idMenu: 3, nombre: "Menu 3", descripcion: "Descripcion del Menu N° 3", precio: 1.75, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117523933_1161292397570156_5144117073103333712_n.jpg?_nc_cat=108&_nc_sid=8bfeb9&_nc_ohc=h1tM8pIaDf8AX9VfzI8&_nc_ht=scontent.fsal3-1.fna&oh=8fea1a9c664064d5835e1b532608107c&oe=5FB20B78"),
-      Menu(idMenu: 4, nombre: "Menu 4", descripcion: "Descripcion del Menu N° 4", precio: 3.80, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117170558_1156791931353536_4157687241622751385_n.jpg?_nc_cat=102&_nc_sid=8bfeb9&_nc_ohc=33qLZKM6vdUAX9O2ejr&_nc_ht=scontent.fsal3-1.fna&oh=62f5bf1abdc13a337d8e09936443f4d9&oe=5FB2F742"),
+      Menu(idMenu: '1', nombre: "Menu 1", descripcion: "Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1 Descripcion del Menu N° 1", precio: 1.99, imagen: "https://d1ralsognjng37.cloudfront.net/939dd856-2cbe-4226-9246-b790337190d9.jpeg"),
+      Menu(idMenu: '2', nombre: "Menu 2", descripcion: "Descripcion del Menu N° 2", precio: 2.99, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117826099_1164528353913227_4355133303312654781_o.jpg?_nc_cat=111&_nc_sid=8bfeb9&_nc_ohc=kcFhDkTyz8sAX8Z6jUw&_nc_ht=scontent.fsal3-1.fna&oh=6d021ab23c15a86f2c2f37f4f3717670&oe=5FB2709C"),
+      Menu(idMenu: '3', nombre: "Menu 3", descripcion: "Descripcion del Menu N° 3", precio: 1.75, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117523933_1161292397570156_5144117073103333712_n.jpg?_nc_cat=108&_nc_sid=8bfeb9&_nc_ohc=h1tM8pIaDf8AX9VfzI8&_nc_ht=scontent.fsal3-1.fna&oh=8fea1a9c664064d5835e1b532608107c&oe=5FB20B78"),
+      Menu(idMenu: '4', nombre: "Menu 4", descripcion: "Descripcion del Menu N° 4", precio: 3.80, imagen: "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117170558_1156791931353536_4157687241622751385_n.jpg?_nc_cat=102&_nc_sid=8bfeb9&_nc_ohc=33qLZKM6vdUAX9O2ejr&_nc_ht=scontent.fsal3-1.fna&oh=62f5bf1abdc13a337d8e09936443f4d9&oe=5FB2F742"),
     ];
     return CardSwiper(
       menus: menus,

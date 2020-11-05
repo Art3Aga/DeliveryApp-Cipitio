@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: Recursos().colorPrimario),
       debugShowCheckedModeBanner: false,
       title: 'Delivery Cipitio',
-      initialRoute:
-          'registro', //storage.emailStorage == '' ? 'registro' : 'loading',
+      initialRoute: storage.emailStorage == '' ? 'registro' : 'loading',
       routes: {
         'home': (context) => TabsPage(),
         'registro': (context) => RegistroPage(),
@@ -38,8 +37,7 @@ class MyApp extends StatelessWidget {
         'perfil': (context) => PerfilPage(),
         'acceso_gps': (context) => AccessoGpsPage(),
         'promocion_detalle': (context) => PromocionesDetalle(),
-        'loading': (context) => LoadingPage(),
-        'nueva_direccion': (context) => MapaAddDireccion(),
+        'loading': (context) => LoadingPage()
       },
     );
   }

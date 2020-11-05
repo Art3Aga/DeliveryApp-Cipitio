@@ -42,7 +42,7 @@ class OrdenesController {
     getOrdenes();
   }
 
-  deleteOrden(int idOrden) async {
+  deleteOrden(String idOrden) async {
     await DBSQliteService.db.deleteOrden(idOrden);
     getOrdenes();
   }

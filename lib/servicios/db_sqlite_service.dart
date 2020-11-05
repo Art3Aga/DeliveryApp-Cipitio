@@ -76,7 +76,7 @@ class DBSQliteService {
     return ordenes;
   }
 
-  Future<int> cantidadOrdenes(int idOrden) async {
+  Future<int> cantidadOrdenes(String idOrden) async {
     final db = await database;
     final response = await db.rawQuery('SELECT COUNT(*) AS ordenes FROM Ordenes WHERE id_orden = $idOrden');
     int cantidadOrdenes = Sqflite.firstIntValue(response);
@@ -98,7 +98,7 @@ class DBSQliteService {
   }
 
   //DELETE
-  Future<int> deleteOrden(int idOrden) async {
+  Future<int> deleteOrden(String idOrden) async {
     final db = await database;
     final response = await db.rawDelete('DELETE FROM Ordenes WHERE id_orden = $idOrden');
     return response;

@@ -1,5 +1,24 @@
 import 'dart:convert';
 
+class Menus {
+
+  List<Menu> items = new List();
+
+  Menus();
+
+  Menus.fromJsonList( List<dynamic> jsonList  ) {
+
+    if ( jsonList == null ) return;
+
+    for ( var item in jsonList  ) {
+      final direccion = new Menu.fromJson(item);
+      items.add( direccion );
+    }
+
+  }
+
+}
+
 Menu menuFromJson(String str) => Menu.fromJson(json.decode(str));
 
 String menuToJson(Menu data) => json.encode(data.toJson());
@@ -13,7 +32,7 @@ class Menu {
         this.imagen,
     });
     String uniqueID;
-    int idMenu;
+    String idMenu;
     String nombre;
     String descripcion;
     double precio;

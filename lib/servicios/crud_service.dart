@@ -1,11 +1,12 @@
 
 import 'package:deliveryapplicacion/modelos/cliente_model.dart';
+import 'package:deliveryapplicacion/modelos/direccion_model.dart';
 import 'package:dio/dio.dart';
 
 class Crud {
 
   final _dio = new Dio();
-  final _url = 'http://192.168.1.26:3000';
+  final _url = 'https://cipitiobackend.herokuapp.com';
 
 
 
@@ -13,7 +14,14 @@ class Crud {
 
     final url = '$_url/api/clientes/nuevo_cliente';
 
-    final response = await this._dio.post(url, data: cliente.toJson());
+    Map<String, String> dataClient = {
+      'nombre': cliente.nombre,
+      'telefono': cliente.telefono,
+      'email': cliente.email,
+      'clave': cliente.clave
+    };
+
+    final response = await this._dio.post(url, data: dataClient);
 
     return response.data;
 
@@ -25,6 +33,26 @@ class Crud {
     final url = '$_url/api/clientes/login_cliente';
 
     final response = await this._dio.post(url, data: cliente.toJson());
+    
+    return response.data;
+
+  }
+
+  Future<dynamic> registroDireccion(DireccionCliente direccion) async {
+
+    final url = '$_url/api/clientes/nueva_direccion';
+
+    final response = await this._dio.post(url, data: direccion.toJson());
+    
+    return response.data;
+
+  }
+
+  Future<dynamic> direccionesByCliente(String idCliente) async {
+
+    final url = '$_url/api/clientes/direcciones/$idCliente';
+
+    final response = await this._dio.get(url);
     
     return response.data;
 

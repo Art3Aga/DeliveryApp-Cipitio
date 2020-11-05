@@ -14,18 +14,7 @@ class PromocionesPage extends StatelessWidget {
           _title(),
           _proms(),
         ],
-      )/*Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                _title(),
-                _proms(),
-              ],
-            ),
-          )
-        ],
-      ),*/
+      )
     );
   }
 
@@ -75,43 +64,43 @@ class PromocionesPage extends StatelessWidget {
   Widget _proms() {
     final List<Promocion> proms = [
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 1',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 2',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 3',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 4',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 5',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 6',
           precio: 4.99,
           imagen:
               'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
       Promocion(
-          idPromo: 0,
+          idPromo: '0',
           nombrePromo: 'pan 7',
           precio: 4.99,
           imagen:

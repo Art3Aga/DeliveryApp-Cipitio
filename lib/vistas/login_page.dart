@@ -18,38 +18,46 @@ class _LoginPageState extends State<LoginPage> {
 
   final _clientesController = new ClientesController();
   final _storage = new StorageCliente();
+  bool _cargando = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(top: size.width * 0.2),
-        child: SingleChildScrollView(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _titulo(),
-                    SizedBox(height: size.height * 0.05),
-                    _icono(size),
-                    SizedBox(height: size.height * 0.1),
-                    Input(icon: Icons.email, placeholder: 'Email', textController: _emailController, keyboardType: TextInputType.emailAddress, textCapitalization: TextCapitalization.none),
-                    Input(icon: Icons.fiber_pin, placeholder: 'Clave', textController: _claveController, isPassword: true),
-                    SizedBox(height: size.height * 0.15),
-                    _botonLogin(size),
-                    SizedBox(height: size.height * 0.05),
-                    _textRegistrarme(),
-                    //SizedBox(height: size.height * 0.03),
-                    //_textOlvideMiClave()
-                  ],
-                ),
+      body: Stack(
+        children: [
+          _body(size),
+          _cargando ? Center(child: CupertinoActivityIndicator(radius: 25)) : Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _body(Size size) {
+    return Container(
+      margin: EdgeInsets.only(top: size.width * 0.2),
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _titulo(),
+                  SizedBox(height: size.height * 0.05),
+                  _icono(size),
+                  SizedBox(height: size.height * 0.1),
+                  Input(icon: Icons.email, placeholder: 'Email', textController: _emailController, keyboardType: TextInputType.emailAddress, textCapitalization: TextCapitalization.none),
+                  Input(icon: Icons.fiber_pin, placeholder: 'Clave', textController: _claveController, isPassword: true),
+                  SizedBox(height: size.height * 0.15),
+                  _botonLogin(size),
+                  SizedBox(height: size.height * 0.05),
+                  _textRegistrarme(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -85,11 +93,11 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.symmetric(
             vertical: size.height * 0.025, horizontal: size.width * 0.2
         ),
-        onPressed: () async {
+        onPressed: !_cargando ? () async {
           _login();
-        },
+        } : null,
         child: Text(
-          'Iniciar !',
+          'Iniciar!',
           style: TextStyle(fontSize: 18),
         ),
         color: Recursos().colorTerciario,
@@ -132,22 +140,29 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
+    this._cargando = true;
+    setState(() {});
+
     Cliente cliente = new Cliente(clave: _claveController.text, email: _emailController.text);
 
     
     final response = await this._clientesController.login(cliente);
 
     if(response is Cliente) {
+      this._cargando = false;
+      setState(() {});
       Recursos().showMessageSuccess(
         context, "Bienvenido ${response.nombre}", () {
         _storage.emailStorage = response.email;
+        _storage.nombreStorage = response.nombre;
+        _storage.idClienteStorage = cliente.idCliente;
         Navigator.of(context).pushReplacementNamed('loading');
       });
     }
     else if (response is String) {
-
+      this._cargando = false;
+      setState(() {});
       Recursos().showMessageError(context, response);
-
     }
 
   }

@@ -1,4 +1,6 @@
+
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/edit_dir_page.dart';
 import 'package:deliveryapplicacion/vistas/edit_pass_page.dart';
 import 'package:deliveryapplicacion/vistas/edit_phone_page.dart';
@@ -8,6 +10,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatelessWidget {
+
+
+  final storage = new StorageCliente();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,12 +59,12 @@ class PerfilPage extends StatelessWidget {
 
   Widget _saludo() {
     final style = TextStyle(fontSize: 25.0, color: Recursos().colorPrimario);
-    return Text('Hola', style: style);
+    return Text('Hola ${storage.nombreStorage.split(' ')[0]}!', style: style);
   }
 
   Widget _saludo2() {
     final style = TextStyle(color: Recursos().colorPrimario);
-    return Text('Bienvenidos a El Cipitillo ', style: style);
+    return Text('Bienvenido a El Cipitillo ', style: style);
   }
 
   Widget _saludo3() {
@@ -69,64 +75,21 @@ class PerfilPage extends StatelessWidget {
   Widget _icono(Size size) {
     return Container(
       decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(50), boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 3,
-          blurRadius: 11,
-          offset: Offset(0, 3),
+        BoxDecoration(
+          borderRadius: BorderRadius.circular(50), 
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 11,
+              offset: Offset(0, 3),
+            ),
+          ]
         ),
-      ]),
       child: CircleAvatar(
         radius: size.width * 0.13,
         backgroundColor: Recursos().colorTerciario,
-        child: Text('EC'),
-      ),
-    );
-  }
-
-  Widget _botondirecciones(Size size) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(30),
-        topRight: Radius.circular(30),
-        bottomRight: Radius.circular(30),
-        topLeft: Radius.circular(30),
-      ),
-      child: MaterialButton(
-        padding: EdgeInsets.symmetric(
-            vertical: size.height * 0.05, horizontal: size.width * 0.1),
-        onPressed: _login,
-        child: Text(
-          'Edita Tus Direcciones',
-          style: TextStyle(fontSize: 18),
-        ),
-        color: Recursos().colorTerciario,
-        textColor: Colors.white,
-        splashColor: Recursos().colorSecundario,
-      ),
-    );
-  }
-
-  Widget _botontelefono(Size size) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(30),
-        topRight: Radius.circular(30),
-        bottomRight: Radius.circular(30),
-        topLeft: Radius.circular(30),
-      ),
-      child: MaterialButton(
-        padding: EdgeInsets.symmetric(
-            vertical: size.height * 0.05, horizontal: size.width * 0.1),
-        onPressed: _login,
-        child: Text(
-          'Numero De Telefono',
-          style: TextStyle(fontSize: 18),
-        ),
-        color: Recursos().colorTerciario,
-        textColor: Colors.white,
-        splashColor: Recursos().colorSecundario,
+        child: Text(_iniciales()),
       ),
     );
   }
@@ -138,21 +101,15 @@ class PerfilPage extends StatelessWidget {
         children: [
           Divider(color: Recursos().colorPrimario),
           _telefono(context),
-          Divider(
-            color: Recursos().colorPrimario,
-          ),
+          Divider(color: Recursos().colorPrimario),
           _clave(context),
-          Divider(
-            color: Recursos().colorPrimario,
-          ),
+          Divider(color: Recursos().colorPrimario),
           _historial(context),
-          Divider(
-            color: Recursos().colorPrimario,
-          ),
+          Divider(color: Recursos().colorPrimario),
           _direcciones(context),
-          Divider(
-            color: Recursos().colorPrimario,
-          ),
+          Divider(color: Recursos().colorPrimario),
+          _btnSalir(context),
+          Divider(color: Recursos().colorPrimario),
         ],
       ),
     );
@@ -240,6 +197,38 @@ class PerfilPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => AdministrarUbicacion()));
       },
     );
+  }
+
+  Widget _btnSalir(BuildContext context) {
+    return ListTile(
+      title: Container(
+        child: Text(
+          'Cerrar Sesion',
+          style: TextStyle(
+            color: Recursos().colorPrimario,
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      leading: Icon(Icons.exit_to_app, color: Colors.red),
+      trailing: Icon(Icons.chevron_right, color: Recursos().colorPrimario),
+      onTap: () {
+        Recursos().showMessageConfirmar(context, () {_cerrarSesion(context);}, 'Salir', '¿Seguro desea cerrar sesion?');
+      }
+    );
+  }
+
+  void _cerrarSesion(BuildContext context) {
+    storage.emailStorage = ''; // Eliminar el email del storage para que salga de la app
+    storage.nombreStorage = ''; // Eliminar el nombre del storage para que salga de la app
+    storage.idClienteStorage = ''; // Eliminar el nombre del storage para que salga de la app
+    Navigator.of(context).pushReplacementNamed('registro');
+  }
+
+  String _iniciales() {
+    List<String> separados = storage.nombreStorage.split(' ');
+    return separados[0].substring(0, 1) + separados[1].substring(0, 1);
   }
 
   void _login() {

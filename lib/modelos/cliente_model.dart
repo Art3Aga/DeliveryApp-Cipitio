@@ -13,7 +13,7 @@ class Cliente {
         this.email,
     });
 
-    int idCliente;
+    String idCliente;
     String nombre;
     String telefono;
     String clave;

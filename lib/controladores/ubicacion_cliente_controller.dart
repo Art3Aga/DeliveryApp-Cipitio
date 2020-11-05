@@ -26,6 +26,8 @@ class UbicacionClienteController {
   final _direccionController = new StreamController<String>.broadcast();
   final _referenciaController = new StreamController<String>.broadcast();
   final _coordenadasController = new StreamController<LatLng>.broadcast();
+  String coordenadas = '';
+  String referencia = '';
 
 
   Stream<LatLng> get ubicacionStream => _ubicacionController.stream;
@@ -48,10 +50,12 @@ class UbicacionClienteController {
 
   addReferencia(String referencia) {
     _referenciaController.sink.add(referencia);
+    this.referencia = referencia;
   }
   
   addCoordenadas(LatLng coordenadas) {
     _coordenadasController.sink.add(coordenadas);
+    this.coordenadas = '${coordenadas.latitude},${coordenadas.longitude}';
   }
 
   dispose() {

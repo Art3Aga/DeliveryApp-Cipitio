@@ -9,6 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapaAddDireccion extends StatefulWidget {
+
+
+  final bool registrarDireccionEnDB;
+  final bool direccionActiva;
+
+  MapaAddDireccion({Key key, @required this.registrarDireccionEnDB, @required this.direccionActiva}) : super(key: key);
+
   @override
   _MapaAddDireccionState createState() => _MapaAddDireccionState();
 }
@@ -39,7 +46,6 @@ class _MapaAddDireccionState extends State<MapaAddDireccion> {
     return StreamBuilder<LatLng>(
       stream: _ubicacionClienteController.ubicacionStream,
       builder: (context, snapshot) {
-
         if(snapshot.hasData) {
           final ubicacion = snapshot.data;
           return Stack(
@@ -76,6 +82,7 @@ class _MapaAddDireccionState extends State<MapaAddDireccion> {
       zoomControlsEnabled: true,
       onMapCreated: (controller) {
         _mapController = controller;
+        _ubicacionClienteController.addCoordenadas(positionInitial.target);
       },
       onCameraMove: (cameraPosition) {
         _ubicacionClienteController.addCoordenadas(cameraPosition.target);
@@ -132,13 +139,10 @@ class _MapaAddDireccionState extends State<MapaAddDireccion> {
           minWidth: size.width - 120,
           child: Text('Confirmar Ubicación', style: TextStyle(color: Colors.white),),
           onPressed: () {
-            final dialog = Dialog(
-                child: Container(width: size.width * 0.9, height: size.height * 0.35, child: DialogInput()),
-                insetAnimationCurve: Curves.easeIn,
-                insetAnimationDuration: Duration(milliseconds: 500),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-              );
-            showDialog(context: context, builder: (_) => dialog);
+
+            final dialog = DialogInput(registrarDireccionEnDB: widget.registrarDireccionEnDB, direccionActiva: widget.direccionActiva);
+            
+            Recursos().mostrarDialog(dialog, context, size.width * 0.9, size.height * 0.35);
           },
         ),
       )
