@@ -303,18 +303,6 @@ class _MenuDetalleState extends State<MenuDetalle> {
     });
   }
 
-  Widget _btnCompartir() {
-    return SafeArea(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          IconButton(icon: Icon(Icons.share), onPressed: _compartir, color: Colors.white),
-        ],
-      ),
-    );
-  }
-
   void _compartir() {
 
   }
