@@ -32,7 +32,7 @@ class Grid extends StatelessWidget {
     for (int i = 1; i <= nrows; i++) {
       final List<Widget> itemsPerRow = new List<Widget>();
       for (int j = 1; j <= columns; j++) {
-        if (promos[index].imagen != null) {
+        if (promos[index].menu.imagen != null) {
           itemsPerRow.add(_item(promos[index], context));
         } else {
           itemsPerRow.add(Container());
@@ -52,13 +52,13 @@ class Grid extends StatelessWidget {
           FadeInImage(
             height: 80.0,
             placeholder: AssetImage('assets/loading.gif'),
-            image: NetworkImage(promocion.imagen),
+            image: NetworkImage(promocion.menu.imagen),
             fit: BoxFit.fill,
           ),
           Container(
               padding: EdgeInsets.all(25.0),
               child: Text(
-                promocion.nombrePromo,
+                promocion.menu.nombre,
                 style: TextStyle(
                   color: Recursos().colorPrimario,
                 ),
@@ -66,7 +66,7 @@ class Grid extends StatelessWidget {
         ],
       ),
     );
-    if (promocion.imagen == null) {
+    if (promocion.menu == null) {
       return Container();
     } else {
       return Container(
@@ -86,7 +86,8 @@ class Grid extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'promocion_detalle', arguments: promocion);
+              Navigator.pushNamed(context, 'menu_detalle',
+                  arguments: promocion.menu);
             },
             child: card,
           ),

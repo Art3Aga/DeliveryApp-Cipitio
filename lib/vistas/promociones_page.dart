@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/modelos/promo_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/widgets/grid.dart';
@@ -9,13 +10,24 @@ class PromocionesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+        body: ListView(
+      children: [
+        _title(),
+        _proms(),
+      ],
+    ) /*Stack(
         children: [
-          _title(),
-          _proms(),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                _title(),
+                _proms(),
+              ],
+            ),
+          )
         ],
-      )
-    );
+      ),*/
+        );
   }
 
   /*Widget _background() {
@@ -64,47 +76,59 @@ class PromocionesPage extends StatelessWidget {
   Widget _proms() {
     final List<Promocion> proms = [
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 1',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "0",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99)),
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 2',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "1",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99)),
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 3',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "2",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99)),
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 4',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "3",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99)),
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 5',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "4",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99)),
       Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 6',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
-      Promocion(
-          idPromo: '0',
-          nombrePromo: 'pan 7',
-          precio: 4.99,
-          imagen:
-              'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg'),
+          idPromo: 0,
+          menu: Menu(
+              idMenu: "5",
+              descripcion: 'al suave',
+              imagen:
+                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
+              nombre: 'Menu 1',
+              precio: 2.99))
     ];
     return Grid(
       promos: proms,
