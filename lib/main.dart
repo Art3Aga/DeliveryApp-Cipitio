@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: Recursos().colorPrimario),
       debugShowCheckedModeBanner: false,
       title: 'Delivery Cipitio',
-      initialRoute: storage.emailStorage == '' ? 'procesar' : 'loading',
+      initialRoute: storage.emailStorage == '' ? 'login' : 'loading',
       routes: {
         'home': (context) => TabsPage(),
         'registro': (context) => RegistroPage(),
