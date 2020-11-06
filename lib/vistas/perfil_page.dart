@@ -1,4 +1,3 @@
-
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/edit_dir_page.dart';
@@ -10,8 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatelessWidget {
-
-
   final storage = new StorageCliente();
 
   @override
@@ -75,17 +72,14 @@ class PerfilPage extends StatelessWidget {
   Widget _icono(Size size) {
     return Container(
       decoration:
-        BoxDecoration(
-          borderRadius: BorderRadius.circular(50), 
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 11,
-              offset: Offset(0, 3),
-            ),
-          ]
+          BoxDecoration(borderRadius: BorderRadius.circular(50), boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 3,
+          blurRadius: 11,
+          offset: Offset(0, 3),
         ),
+      ]),
       child: CircleAvatar(
         radius: size.width * 0.13,
         backgroundColor: Recursos().colorTerciario,
@@ -201,28 +195,32 @@ class PerfilPage extends StatelessWidget {
 
   Widget _btnSalir(BuildContext context) {
     return ListTile(
-      title: Container(
-        child: Text(
-          'Cerrar Sesion',
-          style: TextStyle(
-            color: Recursos().colorPrimario,
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.bold,
+        title: Container(
+          child: Text(
+            'Cerrar Sesion',
+            style: TextStyle(
+              color: Recursos().colorPrimario,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      leading: Icon(Icons.exit_to_app, color: Colors.red),
-      trailing: Icon(Icons.chevron_right, color: Recursos().colorPrimario),
-      onTap: () {
-        Recursos().showMessageConfirmar(context, () {_cerrarSesion(context);}, 'Salir', '¿Seguro desea cerrar sesion?');
-      }
-    );
+        leading: Icon(Icons.exit_to_app, color: Colors.red),
+        trailing: Icon(Icons.chevron_right, color: Recursos().colorPrimario),
+        onTap: () {
+          Recursos().showMessageConfirmar(context, () {
+            _cerrarSesion(context);
+          }, 'Salir', '¿Seguro desea cerrar sesion?');
+        });
   }
 
   void _cerrarSesion(BuildContext context) {
-    storage.emailStorage = ''; // Eliminar el email del storage para que salga de la app
-    storage.nombreStorage = ''; // Eliminar el nombre del storage para que salga de la app
-    storage.idClienteStorage = ''; // Eliminar el nombre del storage para que salga de la app
+    storage.emailStorage =
+        ''; // Eliminar el email del storage para que salga de la app
+    storage.nombreStorage =
+        ''; // Eliminar el nombre del storage para que salga de la app
+    storage.idClienteStorage =
+        ''; // Eliminar el nombre del storage para que salga de la app
     Navigator.of(context).pushReplacementNamed('registro');
   }
 
