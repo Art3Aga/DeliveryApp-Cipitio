@@ -238,12 +238,7 @@ class _RegistroPageState extends State<RegistroPage> {
     if(response is DireccionCliente) {
       this._cargando = false;
       setState(() {});
-      Recursos().showMessageSuccess(context, "Bienvenido ${cliente.nombre}", () {
-        _storage.emailStorage = cliente.email;
-        _storage.nombreStorage = cliente.nombre;
-        _storage.idClienteStorage = cliente.idCliente;
-        Navigator.of(context).pushReplacementNamed('loading');
-      }); 
+      Recursos().showMessageSuccess(context, "Bienvenido ${cliente.nombre}", () => _saveStorage(context, cliente)); 
     }
     else if (response is String) {
       this._cargando = false;
@@ -251,6 +246,16 @@ class _RegistroPageState extends State<RegistroPage> {
       Recursos().showMessageError(context, response);
     }
 
+  }
+
+  _saveStorage(BuildContext context, Cliente cliente) {
+    _storage.emailStorage = cliente.email;
+    _storage.nombreStorage = cliente.nombre;
+    _storage.idClienteStorage = cliente.idCliente;
+    _storage.direccionStorage = _direccionesController.text;
+    _storage.coordenadasStorage = _ubicacionClienteController.coordenadas;
+    _storage.referenciaStorage = _ubicacionClienteController.referencia;
+    Navigator.of(context).pushReplacementNamed('loading');
   }
 
 

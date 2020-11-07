@@ -40,6 +40,7 @@ dependencies:
   animate_do:
   sqflite:
   path_provider:
+  socket_io_client:
 
 dev_dependencies:
   flutter_test:

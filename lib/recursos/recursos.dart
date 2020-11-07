@@ -40,15 +40,15 @@ class Recursos {
   }
 
 
-  showMessageConfirmar(BuildContext context, Function callback, [String titulo, String subtitulo]) {
+  showMessageConfirmar(BuildContext context, Function callback, [String titulo, String subtitulo, String cancelText = 'No', String confirmText = 'Si']) {
     SweetAlert.show(
       context,
       title: titulo,
       subtitle: subtitulo,
       style: SweetAlertStyle.confirm,
       showCancelButton: true,
-      cancelButtonText: 'No',
-      confirmButtonText: 'Si',
+      cancelButtonText: cancelText,
+      confirmButtonText: confirmText,
       onPress: (confirmar) {
         if(confirmar) {
           callback();
@@ -70,6 +70,29 @@ class Recursos {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
     );
     showDialog(context: context, builder: (_) => dialog);
+  }
+
+
+  showMessageConfirmarDireccion(BuildContext context, String titulo, String subtitulo, String cancelText, String confirmText, Function callbackContinuar) {
+    SweetAlert.show(
+      context,
+      title: titulo,
+      subtitle: subtitulo,
+      style: SweetAlertStyle.confirm,
+      showCancelButton: true,
+      cancelButtonText: cancelText,
+      confirmButtonText: confirmText,
+      onPress: (confirmar) {
+        if(confirmar) {
+          callbackContinuar();
+        }
+        else {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed('administrar_direccion');
+        }
+        return false;
+      }
+    );
   }
 
 

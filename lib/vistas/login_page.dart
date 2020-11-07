@@ -152,12 +152,7 @@ class _LoginPageState extends State<LoginPage> {
       this._cargando = false;
       setState(() {});
       Recursos().showMessageSuccess(
-        context, "Bienvenido ${response.nombre}", () {
-        _storage.emailStorage = response.email;
-        _storage.nombreStorage = response.nombre;
-        _storage.idClienteStorage = cliente.idCliente;
-        Navigator.of(context).pushReplacementNamed('loading');
-      });
+        context, "Bienvenido ${response.nombre}", () => _saveStorage(context, cliente));
     }
     else if (response is String) {
       this._cargando = false;
@@ -165,6 +160,26 @@ class _LoginPageState extends State<LoginPage> {
       Recursos().showMessageError(context, response);
     }
 
+  }
+
+  _saveStorage(BuildContext context, Cliente cliente) async {
+
+    final direccionActual = await _getDireccionActual(cliente);
+
+    _storage.emailStorage = cliente.email;
+    _storage.nombreStorage = cliente.nombre;
+    _storage.idClienteStorage = cliente.idCliente;
+    _storage.direccionStorage = direccionActual.direccion;
+    _storage.coordenadasStorage = direccionActual.coordenadas;
+    _storage.referenciaStorage = direccionActual.referencia;
+
+    Navigator.of(context).pushReplacementNamed('loading');
+  }
+
+
+  Future<DireccionCliente> _getDireccionActual(Cliente cliente) async {
+    final direcciones = await _clientesController.direccionesByCliente(cliente.idCliente);
+    return direcciones.firstWhere((direccion) => direccion.activo = true);
   }
 
 

@@ -2,8 +2,11 @@
 
 import 'package:deliveryapplicacion/controladores/ordenes_controller.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
-import 'package:deliveryapplicacion/modelos/orden_model.dart';
+import 'package:deliveryapplicacion/modelos/pedido_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
+import 'package:deliveryapplicacion/modelos/ordenes_model.dart';
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:deliveryapplicacion/servicios/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +17,17 @@ class OrdenesPage extends StatelessWidget {
 
   OrdenesPage({@required this.activarAppBar});
 
-  final _ordenesController = new OrdenesController();
+  final _pedidosController = new OrdenesController();
+  final _storage = new StorageCliente();
+  final _socketService = new SocketService();
 
   @override
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
-    _ordenesController.getOrdenes();
+
+
+    _pedidosController.getPedidos();
 
     return Scaffold(
       appBar: activarAppBar ? AppBar() : null,
@@ -38,17 +45,17 @@ class OrdenesPage extends StatelessWidget {
 
   _body(Size size, BuildContext context) {
     return Container(
-      child: StreamBuilder<List<Orden>>(
-        stream: _ordenesController.ordenesStream,
-        builder: (BuildContext context, AsyncSnapshot<List<Orden>> snapshot){
+      child: StreamBuilder<List<Pedido>>(
+        stream: _pedidosController.pedidosStream,
+        builder: (BuildContext context, AsyncSnapshot<List<Pedido>> snapshot){
 
           if(snapshot.hasData) {
-            List<Orden> ordenes = snapshot.data;
-            return ordenes.length > 0 ? ListView.separated(
+            List<Pedido> pedidos = snapshot.data;
+            return pedidos.length > 0 ? ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (_, i) => _itemOrden(ordenes[i], size, context), 
+              itemBuilder: (_, i) => _itemOrden(pedidos[i], size, context), 
               separatorBuilder: (_, i) => Divider(), 
-              itemCount: ordenes.length
+              itemCount: pedidos.length
             ) : Container(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -65,7 +72,7 @@ class OrdenesPage extends StatelessWidget {
     );
   }
 
-  _itemOrden(Orden orden, Size size, BuildContext context) {
+  _itemOrden(Pedido pedido, Size size, BuildContext context) {
 
     final styleTitle = TextStyle(
       fontSize: 20,
@@ -93,33 +100,33 @@ class OrdenesPage extends StatelessWidget {
         child: CircleAvatar(
           radius: size.height * 0.033,
           backgroundColor: Colors.transparent,
-          backgroundImage: NetworkImage(orden.imagen),
+          backgroundImage: NetworkImage(pedido.imagen),
           foregroundColor: Colors.white,
         ),
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(orden.nombre, style: styleTitle),
+          Text(pedido.nombre, style: styleTitle),
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Container(
               padding: EdgeInsets.all(5),
               color: Recursos().colorPrimario,
-              child: Text('${orden.cantidad}x', style: styleCantidad),
+              child: Text('${pedido.cantidad}x', style: styleCantidad),
             ),
           ),
         ],
       ),
-      subtitle: Text('\$${orden.precioOrden}', style: styleSubTitle),
-      trailing: _popupOpcionesOrden(size, orden),
+      subtitle: Text('\$${pedido.subtotal}', style: styleSubTitle),
+      trailing: _popupOpcionesOrden(size, pedido),
       onTap: (){
         Menu menu = new Menu(
-          idMenu: orden.idMenu,
-          nombre: orden.nombre,
-          descripcion: orden.descripcion,
-          imagen: orden.imagen,
-          precio: orden.precio
+          idMenu: pedido.idMenuPromo,
+          nombre: pedido.nombre,
+          descripcion: pedido.descripcion,
+          imagen: pedido.imagen,
+          precio: pedido.precio
         );
         Navigator.of(context).pushNamed('menu_detalle', arguments: menu);
       },
@@ -149,7 +156,7 @@ class OrdenesPage extends StatelessWidget {
     );
   }
 
-  Widget _popupOpcionesOrden(Size size, Orden orden) {
+  Widget _popupOpcionesOrden(Size size, Pedido pedido) {
     return PopupMenuButton(
       icon: Icon(Icons.more_vert),
       tooltip: 'Opciones',
@@ -158,7 +165,7 @@ class OrdenesPage extends StatelessWidget {
           child: FlatButton(
             onPressed: (){
               Navigator.of(context).pop();
-              _ordenesController.deleteOrden(orden.idOrden);
+              _pedidosController.deletePedido(pedido.idPedido);
             },
             child: Row(children: <Widget>[Text('Eliminar de la Orden'), SizedBox(width: size.width * 0.01), Icon(Icons.delete, color: Colors.red)])
           ),
@@ -168,14 +175,14 @@ class OrdenesPage extends StatelessWidget {
   }
 
   Widget _btnCancelarOrden(BuildContext context, Size size) {
-    return StreamBuilder<List<Orden>>(
-      stream: _ordenesController.ordenesStream,
+    return StreamBuilder<List<Pedido>>(
+      stream: _pedidosController.pedidosStream,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
 
-          List<Orden> ordenes = snapshot.data;
+          List<Pedido> pedidos = snapshot.data;
 
-          return ordenes.length > 0 ? Container(
+          return pedidos.length > 0 ? Container(
             margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: size.height * 0.05),
             child: FlatButton(
               splashColor: Recursos().colorSecundario,
@@ -196,20 +203,22 @@ class OrdenesPage extends StatelessWidget {
   }
 
   void _cancelarOrden(BuildContext context) {
-    _ordenesController.cancelarOrden();
+    _pedidosController.cancelarOrden();
     Navigator.of(context).pop();
   }
 
   Widget _btnProcesarOrden(Size size) {
     return StreamBuilder<double>(
-      stream: _ordenesController.totalStream,
+      stream: _pedidosController.totalStream,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           double total = snapshot.data;
           return total > 0 ? Container(
             child: MaterialButton(
               child: Text('Procesar Orden'),
-              onPressed: (){},
+              onPressed: () {
+                _dialogConfirmarDireccionActual(context);
+              },
               color: Recursos().colorPrimario,
               textColor: Colors.white,
               splashColor: Recursos().colorSecundario,
@@ -222,17 +231,13 @@ class OrdenesPage extends StatelessWidget {
   }
 
   Widget _subTotal(Size size) {
-
-    /*return ListTile(
-      title: Text('Total: ${_total.toStringAsFixed(2)}'),
-    );*/
     return StreamBuilder<double>(
-      stream: _ordenesController.totalStream,
+      stream: _pedidosController.totalStream,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           double total = snapshot.data;
           return total > 0 ? ListTile(
-            title: Text('Total: ${total.toStringAsFixed(2)}'),
+            title: Text('Total: \$${total.toStringAsFixed(2)}'),
           ) : Container();
         }
         else {
@@ -240,6 +245,50 @@ class OrdenesPage extends StatelessWidget {
         }
       }
     );
+  }
+
+
+  void _dialogConfirmarDireccionActual(BuildContext context) {
+    Recursos().showMessageConfirmarDireccion(
+      context,
+      'Dirección Actual',
+      'Su dirección actual es "${_storage.direccionStorage}"\n¿Desea Cambiarla?',
+      'Cambiar',
+      'Procesar Orden',
+      () => _nuevaOrden(context)
+    );
+  }
+
+  _cambiarDireccion(BuildContext context) {
+    Navigator.of(context).pushNamed('administrar_direccion');
+    Navigator.of(context).pop();
+  }
+
+
+
+  _nuevaOrden(BuildContext context) async {
+
+    Orden orden = new Orden(idCliente: _storage.idClienteStorage, total: _pedidosController.total);
+
+    final response = await _pedidosController.nuevaOrden(orden);
+
+    if(response is Orden) {
+      _pedidosController.pedidos.forEach((pedido) async {
+        await _pedidosController.nuevoPedido(pedido, response.idOrden);
+      });
+      Recursos().showMessageSuccess(context, "Su Orden ha sido Registrada Correctamente!", () => _next(context)); 
+    }
+    else if (response is String) {
+      Recursos().showMessageError(context, response);
+    }
+
+    _socketService.socket.emit('nueva-orden');
+
+  }
+
+  _next(BuildContext context) {
+    //Navigator.of(context).pushNamed('ruta_de_la_pantalla_para_el_rastreo');   //Solo 1 de los 2
+    Navigator.of(context).pop();
   }
 
 

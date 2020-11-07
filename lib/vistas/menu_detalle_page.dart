@@ -5,6 +5,7 @@ import 'package:deliveryapplicacion/controladores/ordenes_controller.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/db_sqlite_service.dart';
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,8 @@ class _MenuDetalleState extends State<MenuDetalle> {
 
   TextEditingController _notaController = new TextEditingController();
   int _cantidad = 1;
-  final _ordenesController = new OrdenesController();
+  final _pedidosController = new OrdenesController();
+  final _storage = new StorageCliente();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +39,12 @@ class _MenuDetalleState extends State<MenuDetalle> {
               _inputNota(size, context),
               _seleccionarCantidad(size, menu),
               SizedBox(height: size.height * 0.1)
-              //_btnAddOrden(menu, context, size),
+              //_btnaddPedido(menu, context, size),
             ]),
           )
         ],
       ),
-      floatingActionButton: _btnAddOrden(menu, context, size),
+      floatingActionButton: _btnaddPedido(menu, context, size),
     );
   }
 
@@ -246,7 +248,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
   }
 
-  Widget _btnAddOrden(Menu menu, BuildContext context, Size size) {
+  Widget _btnaddPedido(Menu menu, BuildContext context, Size size) {
     return Container(
       width: size.width,
       margin: EdgeInsets.only(left: size.width * 0.09),
@@ -266,17 +268,18 @@ class _MenuDetalleState extends State<MenuDetalle> {
   void _addPedidoToOrden(BuildContext context, Menu menu) async {
 
 
-    Orden orden = new Orden(
-      idMenu: menu.idMenu,
+    Pedido orden = new Pedido(
+      idCliente: _storage.idClienteStorage,
+      idMenuPromo: menu.idMenu,
       nombre: menu.nombre,
       descripcion: menu.descripcion,
       imagen: menu.imagen,
       precio: menu.precio,
       cantidad: this._cantidad,
-      precioOrden: menu.precio * this._cantidad
+      subtotal: menu.precio * this._cantidad
     );
 
-    await _ordenesController.addOrden(orden);
+    await _pedidosController.addPedido(orden);
     
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();

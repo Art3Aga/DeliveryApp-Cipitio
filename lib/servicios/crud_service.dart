@@ -1,12 +1,16 @@
 
 import 'package:deliveryapplicacion/modelos/cliente_model.dart';
 import 'package:deliveryapplicacion/modelos/direccion_model.dart';
+import 'package:deliveryapplicacion/modelos/ordenes_model.dart';
+import 'package:deliveryapplicacion/modelos/pedido_model.dart';
+export 'package:deliveryapplicacion/modelos/ordenes_model.dart';
 import 'package:dio/dio.dart';
 
 class Crud {
 
   final _dio = new Dio();
   final _url = 'https://cipitiobackend.herokuapp.com';
+  //final _url = 'http://192.168.1.15:3000';
 
 
 
@@ -54,6 +58,39 @@ class Crud {
 
     final response = await this._dio.get(url);
     
+    return response.data;
+
+  }
+
+  Future<dynamic> nuevaOrden(Orden orden) async {
+
+    final url = '$_url/api/orden_pedido/nueva_orden';
+
+    Map<String, dynamic> ordenData = {
+      'id_cliente': orden.idCliente,
+      'total': orden.total
+    };
+
+    final response = await this._dio.post(url, data: ordenData);
+
+    return response.data;
+
+  }
+
+  Future<dynamic> nuevoPedido(Pedido pedido, String idOrden) async {
+
+    final url = '$_url/api/orden_pedido/nuevo_pedido';
+
+    Map<String, dynamic> dataPedido = {
+      'id_orden': idOrden,
+      'id_cliente': pedido.idCliente,
+      'id_menu_promo': pedido.idMenuPromo,
+      'cantidad': pedido.cantidad,
+      'subtotal': pedido.subtotal
+    };
+
+    final response = await this._dio.post(url, data: dataPedido);
+
     return response.data;
 
   }

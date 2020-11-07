@@ -1,6 +1,7 @@
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/acceso_gps_page.dart';
+import 'package:deliveryapplicacion/vistas/edit_dir_page.dart';
 import 'package:deliveryapplicacion/vistas/loading_page.dart';
 import 'package:deliveryapplicacion/vistas/login_page.dart';
 import 'package:deliveryapplicacion/vistas/mapa_add_direccion_page.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
         'perfil': (context) => PerfilPage(),
         'acceso_gps': (context) => AccessoGpsPage(),
         'promocion_detalle': (context) => PromocionesDetalle(),
-        'loading': (context) => LoadingPage()
+        'loading': (context) => LoadingPage(),
+        'administrar_direccion': (context) => AdministrarUbicacion(),
       },
     );
   }

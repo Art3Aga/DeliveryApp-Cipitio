@@ -100,12 +100,14 @@ class AdministrarUbicacion extends StatelessWidget {
 
     Icon icon = direccion.activo ? Icon(Icons.pin_drop, color: Colors.green) : Icon(Icons.pin_drop, color: Colors.grey);
 
+    String referencia = direccion.activo ? '${direccion.referencia} (Actual)' : direccion.referencia;
+
     return ListTile(
       onTap: (){},
       leading: icon,
       trailing: _popupOpcionesDireccion(size, direccion),
       title: Text(direccion.direccion),
-      subtitle: Text(direccion.referencia),
+      subtitle: Text(referencia),
     );
   }
 
