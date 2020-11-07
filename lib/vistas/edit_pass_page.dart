@@ -11,6 +11,7 @@ class EditPass extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(title: Text('Cambiar Contraseña')),
       body: Container(
         margin: EdgeInsets.only(top: size.width * 0.2),
         child: SingleChildScrollView(

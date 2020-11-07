@@ -1,37 +1,27 @@
 import 'dart:convert';
 
-Promocion promoFromJson(String str) => Promocion.fromJson(json.decode(str));
+import 'menu_model.dart';
 
-String promoToJson(Promocion data) => json.encode(data.toJson());
+Promocion promocionFromJson(String str) => Promocion.fromJson(json.decode(str));
+
+String promocionToJson(Promocion data) => json.encode(data.toJson());
 
 class Promocion {
   Promocion({
     this.idPromo,
-    this.nombrePromo,
-    this.descripcionPromo,
-    this.precio,
-    this.imagen,
+    this.menu,
   });
 
-  String idPromo;
-  String nombrePromo;
-  String descripcionPromo;
-  double precio;
-  String imagen;
+  int idPromo;
+  Menu menu;
 
   factory Promocion.fromJson(Map<String, dynamic> json) => Promocion(
         idPromo: json["idPromo"],
-        nombrePromo: json["nombrePromo"],
-        descripcionPromo: json["descripcionPromo"],
-        precio: json["precio"],
-        imagen: json["imagen"],
+        menu: Menu.fromJson(json["menu"]),
       );
 
   Map<String, dynamic> toJson() => {
         "idPromo": idPromo,
-        "nombrePromo": nombrePromo,
-        "descripcionPromo": descripcionPromo,
-        "precio": precio,
-        "imagen": imagen,
+        "menu": menu.toJson(),
       };
 }

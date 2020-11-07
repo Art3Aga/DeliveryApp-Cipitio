@@ -8,6 +8,7 @@ class EditPhone extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(title: Text('Cambiar numero de telefono')),
       body: Container(
         margin: EdgeInsets.only(top: size.width * 0.2),
         child: SingleChildScrollView(
