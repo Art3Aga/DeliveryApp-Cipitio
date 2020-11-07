@@ -40,11 +40,7 @@ class MyApp extends StatelessWidget {
         'acceso_gps': (context) => AccessoGpsPage(),
         'promocion_detalle': (context) => PromocionesDetalle(),
         'loading': (context) => LoadingPage(),
-<<<<<<< HEAD
         'administrar_direccion': (context) => AdministrarUbicacion(),
-=======
-        'procesar': (context) => ProcesarOrden()
->>>>>>> 3cff6373a20907c2fdc5bab7a81d7fe4c6a79f01
       },
     );
   }

@@ -5,8 +5,7 @@ import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/widgets/cards_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 
 class MenusPage extends StatefulWidget {
   @override
@@ -112,7 +111,6 @@ class _MenusPageState extends State<MenusPage> {
         children: [_swiperTarjetas(size)],
       ),
     );
-    setState(() {});
   }
 
   Widget _swiperTarjetas(Size size) {
@@ -148,18 +146,22 @@ class _MenusPageState extends State<MenusPage> {
               "https://scontent.fsal3-1.fna.fbcdn.net/v/t1.0-9/117170558_1156791931353536_4157687241622751385_n.jpg?_nc_cat=102&_nc_sid=8bfeb9&_nc_ohc=33qLZKM6vdUAX9O2ejr&_nc_ht=scontent.fsal3-1.fna&oh=62f5bf1abdc13a337d8e09936443f4d9&oe=5FB2F742"),
     ];
     */
-    final List<Menu> menus = _menus();
-    return CardSwiper(
-      menus: menus,
+
+    return FutureBuilder<List<Menu>>(
+      future: _menuController.getMenus(),
+      builder: (BuildContext context, AsyncSnapshot<List<Menu>> snapshot) {
+
+        final menus = snapshot.data;
+
+        if(snapshot.hasData) {
+          return CardSwiper(menus: menus);
+        }
+        else {
+          return Center(child: CupertinoActivityIndicator(radius: 25));
+        }
+
+      },
     );
-  }
-
-  List<Menu> _menus() {
-    getMenus();
-    return menuList;
-  }
-
-  void getMenus() async {
-    menuList = await _menuController.getMenus();
+    
   }
 }

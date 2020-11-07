@@ -81,4 +81,14 @@ class Crud {
     return response.data;
 
   }
+
+  Future<dynamic> getMenus() async {
+    
+    final url = '$_url/api/menus/lista';
+
+    final response = await this._dio.get(url);
+
+    return response.data;
+
+  }
 }
