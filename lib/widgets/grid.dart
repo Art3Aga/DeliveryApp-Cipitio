@@ -19,6 +19,7 @@ class Grid extends StatelessWidget {
 
   List<TableRow> getRows(BuildContext context) {
     final List<TableRow> rows = new List<TableRow>();
+    Size size = MediaQuery.of(context).size;
     int nrows = (promos.length) ~/ columns;
     int mod = (promos.length) % columns;
     int index = 0;
@@ -33,7 +34,7 @@ class Grid extends StatelessWidget {
       final List<Widget> itemsPerRow = new List<Widget>();
       for (int j = 1; j <= columns; j++) {
         if (promos[index].menu.imagen != null) {
-          itemsPerRow.add(_item(promos[index], context));
+          itemsPerRow.add(_item(promos[index], context, size));
         } else {
           itemsPerRow.add(Container());
         }
@@ -45,7 +46,7 @@ class Grid extends StatelessWidget {
     return rows;
   }
 
-  Widget _item(Promocion promocion, BuildContext context) {
+  Widget _item(Promocion promocion, BuildContext context, Size size) {
     final card = Container(
       child: Column(
         children: [

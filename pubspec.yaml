@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  share: ^0.6.5+4
   flutter:
     sdk: flutter
 
