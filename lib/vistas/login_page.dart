@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
       this._cargando = false;
       setState(() {});
       Recursos().showMessageSuccess(
-        context, "Bienvenido ${response.nombre}", () => _saveStorage(context, cliente));
+        context, "Bienvenido ${response.nombre}", () => _saveStorage(context, response));
     }
     else if (response is String) {
       this._cargando = false;

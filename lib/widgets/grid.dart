@@ -51,7 +51,7 @@ class Grid extends StatelessWidget {
       child: Column(
         children: [
           FadeInImage(
-            height: 80.0,
+            height: size.height * 0.1,
             placeholder: AssetImage('assets/loading.gif'),
             image: NetworkImage(promocion.menu.imagen),
             fit: BoxFit.fill,

@@ -217,13 +217,14 @@ class PerfilPage extends StatelessWidget {
         });
   }
 
-  void _cerrarSesion(BuildContext context) {
+  void _cerrarSesion(BuildContext context) async {
     storage.emailStorage =
         ''; // Eliminar el email del storage para que salga de la app
     storage.nombreStorage =
         ''; // Eliminar el nombre del storage para que salga de la app
     storage.idClienteStorage =
         ''; // Eliminar el nombre del storage para que salga de la app
+
     Navigator.of(context).pushReplacementNamed('registro');
   }
 
