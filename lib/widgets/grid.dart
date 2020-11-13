@@ -91,7 +91,7 @@ class Grid extends StatelessWidget {
         height: size.height * 0.24,
         margin: EdgeInsets.all(size.height * 0.009),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size.height * 0.003),
+            borderRadius: BorderRadius.circular(size.height * 0.009),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -101,7 +101,7 @@ class Grid extends StatelessWidget {
                   offset: Offset(0.0, 0.5))
             ]),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(size.height * 0.003),
+          borderRadius: BorderRadius.circular(size.height * 0.009),
           child: GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, 'menu_detalle',
