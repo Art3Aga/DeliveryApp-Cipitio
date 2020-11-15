@@ -147,7 +147,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
 
 
     final styleNombreMenu = TextStyle(
-      fontSize: 30,
+      fontSize: 25,
       fontWeight: FontWeight.w800
     );
 
@@ -161,12 +161,14 @@ class _MenuDetalleState extends State<MenuDetalle> {
     return Flexible(
       child: Container(
         width: size.width,
+        padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(menu.nombre, style: styleNombreMenu),
             SizedBox(height: size.height * 0.05),
-            Text('\$${menu.precio}', style: stylePrecio),
+            Text('\$${menu.precio.toStringAsFixed(2)}', style: stylePrecio),
           ],
         ),
       )

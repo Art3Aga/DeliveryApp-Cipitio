@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         'promocion_detalle': (context) => PromocionesDetalle(),
         'loading': (context) => LoadingPage(),
         'administrar_direccion': (context) => AdministrarUbicacion(),
+        'procesar_orden': (context) => ProcesarOrden(),
       },
     );
   }

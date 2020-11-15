@@ -7,8 +7,8 @@ import 'package:dio/dio.dart';
 
 class Crud {
   final _dio = new Dio();
-  final _url = 'https://cipitiobackend.herokuapp.com';
-  //final _url = 'http://192.168.1.15:3000';
+  //final _url = 'https://cipitiobackend.herokuapp.com';
+  final _url = 'http://192.168.1.15:3000';
 
   Future<dynamic> registro(Cliente cliente) async {
     final url = '$_url/api/clientes/nuevo_cliente';
