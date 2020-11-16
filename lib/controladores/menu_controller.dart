@@ -10,6 +10,7 @@ class MenuController {
   Future<List<Menu>> getMenus() async {
     final data = await this._crud.getMenus();
     final menus = new Menus.fromJsonList(data['menus']);
+    //print(data['menus']);
     return menus.items;
   }
 

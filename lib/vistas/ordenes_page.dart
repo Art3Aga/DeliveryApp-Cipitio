@@ -10,27 +10,46 @@ import 'package:deliveryapplicacion/servicios/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OrdenesPage extends StatelessWidget {
+class OrdenesPage extends StatefulWidget {
 
 
   final bool activarAppBar;
 
   OrdenesPage({@required this.activarAppBar});
 
+  @override
+  _OrdenesPageState createState() => _OrdenesPageState();
+}
+
+class _OrdenesPageState extends State<OrdenesPage> {
   final _pedidosController = new OrdenesController();
+
   final _storage = new StorageCliente();
+
   final _socketService = new SocketService();
+
+  Orden orden;
+  bool cargando = false;
+
+  @override
+  void initState() {
+
+    if(mounted) {
+      _socketService.connectar();
+      _socketService.socket.on('repartidor-orden', _getRepartidorOrden);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
-
-
     _pedidosController.getPedidos();
 
     return Scaffold(
-      appBar: activarAppBar ? AppBar() : null,
+      appBar: widget.activarAppBar ? AppBar() : null,
       body: ListView(
         children: [
           _title(),
@@ -75,17 +94,17 @@ class OrdenesPage extends StatelessWidget {
   _itemOrden(Pedido pedido, Size size, BuildContext context) {
 
     final styleTitle = TextStyle(
-      fontSize: 20,
+      fontSize: 14,
       fontWeight: FontWeight.bold
     );
 
     final styleCantidad = TextStyle(
       color: Colors.white,
-      fontSize: 14
+      fontSize: 12
     );
     
     final styleSubTitle = TextStyle(
-      fontSize: 16,
+      fontSize: 13,
       fontStyle: FontStyle.italic
     );
 
@@ -118,7 +137,7 @@ class OrdenesPage extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: Text('\$${pedido.subtotal}', style: styleSubTitle),
+      subtitle: Text('\$${pedido.subtotal.toStringAsFixed(2)}', style: styleSubTitle),
       trailing: _popupOpcionesOrden(size, pedido),
       onTap: (){
         Menu menu = new Menu(
@@ -213,17 +232,30 @@ class OrdenesPage extends StatelessWidget {
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           double total = snapshot.data;
-          return total > 0 ? Container(
-            child: MaterialButton(
-              child: Text('Procesar Orden'),
-              onPressed: () {
-                _dialogConfirmarDireccionActual(context);
-              },
-              color: Recursos().colorPrimario,
-              textColor: Colors.white,
-              splashColor: Recursos().colorSecundario,
-            ),
-          ) : Container();
+          if(this.orden != null) {
+            return Container(
+              child: MaterialButton(
+                child: Text('Ver Mi Orden'),
+                onPressed: () {},
+                color: Recursos().colorPrimario,
+                textColor: Colors.white,
+                splashColor: Recursos().colorSecundario,
+              ),
+            );
+          }
+          else {
+            return total > 0 ? Container(
+              child: MaterialButton(
+                child: Text('Procesar Orden'),
+                onPressed: () {
+                  _dialogConfirmarDireccionActual(context);
+                },
+                color: Recursos().colorPrimario,
+                textColor: Colors.white,
+                splashColor: Recursos().colorSecundario,
+              ),
+            ) : Container();
+          }
         }
         else return Container();
       }
@@ -247,7 +279,6 @@ class OrdenesPage extends StatelessWidget {
     );
   }
 
-
   void _dialogConfirmarDireccionActual(BuildContext context) {
     Recursos().showMessageConfirmarDireccion(
       context,
@@ -259,16 +290,9 @@ class OrdenesPage extends StatelessWidget {
     );
   }
 
-  _cambiarDireccion(BuildContext context) {
-    Navigator.of(context).pushNamed('administrar_direccion');
-    Navigator.of(context).pop();
-  }
-
-
-
   _nuevaOrden(BuildContext context) async {
 
-    Orden orden = new Orden(idCliente: _storage.idClienteStorage, total: _pedidosController.total);
+    /*Orden orden = new Orden(idCliente: _storage.idClienteStorage, total: _pedidosController.total);
 
     final response = await _pedidosController.nuevaOrden(orden);
 
@@ -276,13 +300,16 @@ class OrdenesPage extends StatelessWidget {
       _pedidosController.pedidos.forEach((pedido) async {
         await _pedidosController.nuevoPedido(pedido, response.idOrden);
       });
-      Recursos().showMessageSuccess(context, "Su Orden ha sido Registrada Correctamente!", () => _next(context)); 
+      Recursos().showMessageSuccess(context, "Orden Registrada!", () => _next(context)); 
     }
     else if (response is String) {
       Recursos().showMessageError(context, response);
-    }
+    }*/
 
-    _socketService.socket.emit('nueva-orden');
+    Navigator.of(context).pushNamed('procesar_orden');
+
+    //_socketService.socket.emit('nueva-orden');
+    //Navigator.of(context).pop();
 
   }
 
@@ -291,9 +318,9 @@ class OrdenesPage extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-
-  
-
-
-
+  dynamic _getRepartidorOrden(dynamic data) {
+    setState(() {
+      this.orden = Orden.fromJson(data['orden']);
+    });
+  }
 }

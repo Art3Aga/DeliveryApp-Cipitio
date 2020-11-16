@@ -1,39 +1,97 @@
 import 'package:deliveryapplicacion/controladores/clientes_controller.dart';
-import 'package:deliveryapplicacion/modelos/direccion_model.dart';
+import 'package:deliveryapplicacion/modelos/ordenes_model.dart';
+import 'package:deliveryapplicacion/modelos/usuario_model.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:deliveryapplicacion/servicios/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/vistas/mapa_add_direccion_page.dart';
 
 // ignore: must_be_immutable
-class ProcesarOrden extends StatelessWidget {
+class ProcesarOrden extends StatefulWidget {
+  @override
+  _ProcesarOrdenState createState() => _ProcesarOrdenState();
+}
+
+class _ProcesarOrdenState extends State<ProcesarOrden> {
   TextEditingController _passwordController = new TextEditingController();
-  TextEditingController _passwordConfirmarController =
-      new TextEditingController();
+
+  TextEditingController _passwordConfirmarController = new TextEditingController();
+
   final _clientesController = new ClientesController();
+
+  final _socketService = new SocketService();
+
   final _storage = new StorageCliente();
+
+  Orden orden;
+  Usuario repartidor;
+  bool cargando = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    _socketService.connectar();
+    _socketService.socket.on('repartidor-orden', _getRepartidorOrden);
 
     return Scaffold(
       appBar: AppBar(title: Text('Detalle De La Orden')),
       body: Container(
         margin: EdgeInsets.only(top: size.width * 0.05),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _title2(size),
+            SizedBox(height: size.height * 0.05),
             _title(size),
-            SizedBox(height: size.height * 0.4),
-            _subtotal(size),
-            SizedBox(height: size.height * 0.02),
-            _total(size)
+            this.orden != null ? _datosOrden(size) : Container(),
           ],
         ),
       ),
-      floatingActionButton: _botonAgregar(context),
+      floatingActionButton: this.repartidor != null ? _botonAgregar(context) : Container(),
+    );
+  }
+
+  Widget _datosOrden(Size size) {
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        _itemDatoOrden('Orden ID:', this.orden.idOrden),
+        _itemDatoOrden('Estado:', this.orden.estado),
+        _itemDatoOrden('Fecha:', this.orden.fecha),
+        _itemDatoOrden('Cliente:', _storage.nombreStorage),
+        _listaPedidos(size),
+        _itemDatoOrden('Total:', '\$${this.orden.total.toStringAsFixed(2)}'),
+      ],
+    );
+  }
+
+  Widget _itemDatoOrden(String leading, String trailing) {
+    final styleLeading = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario, fontWeight: FontWeight.bold);
+    final styleTrailing = leading == 'Total:' ? TextStyle(fontSize: 22.0, color: Recursos().colorPrimario, fontWeight: FontWeight.bold) : TextStyle(fontSize: 14.0, color: Recursos().colorPrimario);
+    return ListTile(
+      leading: Text(leading, style: styleLeading),
+      trailing: Text(trailing, style: styleTrailing),
+    );
+  }
+
+  Widget _listaPedidos(Size size) {
+    final styleLeading = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario, fontWeight: FontWeight.bold);
+    final stylePedidos = TextStyle(fontSize: 11.0, color: Recursos().colorPrimario);
+    return ListTile(
+      leading: Text('Pedidos', style: styleLeading),
+      trailing: Wrap(
+        children: [
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+          Text('Panes con Pollo 2x,', style: stylePedidos),
+        ],
+      )
     );
   }
 
@@ -44,15 +102,9 @@ class ProcesarOrden extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Direccion de Envío',
-                style: TextStyle(
-                    color: Recursos().colorTerciario,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold)),
+            Text('Direccion de Envío', style: TextStyle(color: Recursos().colorTerciario, fontSize: 24.0, fontWeight: FontWeight.bold)),
             SizedBox(height: size.height * 0.02),
-            Text('Colonia El Tesoro Av Venezuela #007',
-                style: TextStyle(
-                    color: Recursos().colorTerciario, fontSize: 16.0)),
+            Text(_storage.direccionStorage, style: TextStyle(color: Recursos().colorTerciario, fontSize: 16.0)),
           ],
         ),
       ),
@@ -66,8 +118,8 @@ class ProcesarOrden extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _subtotal_text(),
-          _subtotal_efectivo(),
+          _subtotalText(),
+          _subtotalTfectivo(),
         ],
       ),
     );
@@ -80,15 +132,16 @@ class ProcesarOrden extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _total_text(),
-          _total_efectivo(),
+          _totalText(),
+          _totalEfectivo(),
         ],
       ),
     );
   }
 
   Widget _title2(Size size) {
-    return Row(
+    final styleTextProcesada = TextStyle(fontSize: 19, fontWeight: FontWeight.bold);
+    return this.repartidor != null ?  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(width: size.height * 0.02),
@@ -100,11 +153,10 @@ class ProcesarOrden extends StatelessWidget {
             _saludo(),
             SizedBox(height: size.height * 0.02),
             _saludo2(),
-            //_body(size)
           ],
-        ),
+        )
       ],
-    );
+    ) : Container(child: Center(child: Text('Su Orden está siendo procesada ...', style: styleTextProcesada,)));
   }
 
   Widget _botonAgregar(BuildContext context) {
@@ -139,7 +191,7 @@ class ProcesarOrden extends StatelessWidget {
       child: CircleAvatar(
         radius: size.width * 0.1,
         backgroundColor: Recursos().colorTerciario,
-        child: Text("RP"),
+        child: Text(_iniciales()),
       ),
     );
   }
@@ -151,20 +203,20 @@ class ProcesarOrden extends StatelessWidget {
 
   Widget _saludo2() {
     final style = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario);
-    return Text('David Alvarado Ramos', style: style);
+    return Text(this.repartidor.nombre, style: style);
   }
 
-  Widget _subtotal_text() {
+  Widget _subtotalText() {
     final style = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario);
     return Text('SubTotal', style: style);
   }
 
-  Widget _subtotal_efectivo() {
+  Widget _subtotalTfectivo() {
     final style = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario);
     return Text('4.44', style: style);
   }
 
-  Widget _total_text() {
+  Widget _totalText() {
     final style = TextStyle(
         fontSize: 18.0,
         color: Recursos().colorPrimario,
@@ -172,8 +224,21 @@ class ProcesarOrden extends StatelessWidget {
     return Text('Total', style: style);
   }
 
-  Widget _total_efectivo() {
+  Widget _totalEfectivo() {
     final style = TextStyle(fontSize: 18.0, color: Recursos().colorPrimario);
-    return Text('4.44', style: style);
+    return Text('\$${this.orden.total.toStringAsFixed(2)}', style: style);
+  }
+
+  dynamic _getRepartidorOrden(dynamic data) {
+    setState(() {
+      this.repartidor = Usuario.fromJson(data['repartidor']);
+      this.orden = Orden.fromJson(data['orden']);
+    });
+    //data.id_cliente, data.orden (new Orden), data.repartidor (new Usuario)
+  }
+
+  String _iniciales() {
+    List<String> separados = this.repartidor.nombre.split(' ');
+    return separados[0].substring(0, 1) + separados[1].substring(0, 1);
   }
 }

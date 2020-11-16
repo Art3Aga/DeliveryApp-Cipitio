@@ -1,3 +1,4 @@
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 enum ServerStatus {
@@ -11,36 +12,36 @@ class SocketService {
   IO.Socket _socket;
   ServerStatus get serverStatus => this._serverStatus;
   IO.Socket get socket => this._socket;
+  final _storage = new StorageCliente();
 
-  SocketService() {
-    this._initConfig();
-  }
 
-  void _initConfig() {
+  void connectar() {
 
     //'https://cipitiobackend.herokuapp.com'
     //'http://192.168.1.15:3000'
 
      this._socket = IO.io('http://192.168.1.15:3000', {
       'transports': ['websocket'],
-      'autoConnect': true
+      'autoConnect': true,
+      'forceNew': true,
+      'extraHeaders': {
+        'id_usuario': _storage.idClienteStorage
+      }
     });
 
     this._socket.on('connect', (_) {
-      print('connect');
+      print('conectado al socket');
       this._serverStatus = ServerStatus.Online;
     });
 
     this._socket.on('disconnect', (_)  {
-      print('disconnect');
+      print('desconectado del socket');
       this._serverStatus = ServerStatus.Offline;
     });
+  }
 
-    /*this._socket.on('get-ordenes', (data) {
-      //final valor = data.containsKey('propiedad') ? data['propiedad'] : 'nel no hay';
-      print(data);
-    });*/
-
+  void desconectar() {
+    this._socket.disconnect();
   }
 
 

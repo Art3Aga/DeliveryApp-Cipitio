@@ -137,8 +137,12 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   Widget _nombrePrecioMenu(Size size, Menu menu) {
-    final styleNombreMenu =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.w800);
+
+
+    final styleNombreMenu = TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.w800
+    );
 
     final stylePrecio = TextStyle(
       fontSize: 22,
@@ -148,17 +152,20 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
 
     return Flexible(
-        child: Container(
-      width: size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(menu.nombre, style: styleNombreMenu),
-          SizedBox(height: size.height * 0.05),
-          Text('\$${menu.precio}', style: stylePrecio),
-        ],
-      ),
-    ));
+      child: Container(
+        width: size.width,
+        padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(menu.nombre, style: styleNombreMenu),
+            SizedBox(height: size.height * 0.05),
+            Text('\$${menu.precio.toStringAsFixed(2)}', style: stylePrecio),
+          ],
+        ),
+      )
+    );
   }
 
   Widget _descripcionMenu(Size size, Menu menu) {
