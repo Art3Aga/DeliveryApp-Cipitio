@@ -158,55 +158,6 @@ class PromocionesPage extends StatelessWidget {
     );
   }
 
-  Widget _promos() {
-    return Table(
-      children: [
-        TableRow(children: [
-          _prom(
-              image:
-                  'https://www.elsaborcontinental.com/wp-content/uploads/sites/48/2020/04/xPanes_Con_Pollo.png,qx66984.pagespeed.ic.yXNEyT85CM.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.elsaborcontinental.com/wp-content/uploads/sites/48/2020/04/xPanes_Con_Pollo.png,qx66984.pagespeed.ic.yXNEyT85CM.jpg',
-              promoTitle: 'Promo 1'),
-        ]),
-        TableRow(children: [
-          _prom(
-              image:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.elsaborcontinental.com/wp-content/uploads/sites/48/2020/04/xPanes_Con_Pollo.png,qx66984.pagespeed.ic.yXNEyT85CM.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.elsaborcontinental.com/wp-content/uploads/sites/48/2020/04/xPanes_Con_Pollo.png,qx66984.pagespeed.ic.yXNEyT85CM.jpg',
-              promoTitle: 'Promo 1'),
-        ]),
-        TableRow(children: [
-          _prom(
-              image:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.elsaborcontinental.com/wp-content/uploads/sites/48/2020/04/xPanes_Con_Pollo.png,qx66984.pagespeed.ic.yXNEyT85CM.jpg',
-              promoTitle: 'Promo 1'),
-          _prom(
-              image:
-                  'https://www.196flavors.com/wp-content/uploads/2018/12/panes-con-pavo-1-FP.jpg',
-              promoTitle: 'Promo 1'),
-        ])
-      ],
-    );
-  }
-
   Widget _prom({String image, String promoTitle}) {
     final card = Container(
       child: Column(
@@ -296,7 +247,7 @@ class PromocionesPage extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(0.0),
+                padding: EdgeInsets.all(0.0), 
                 child: Text(promoTitle),
               )
             ],

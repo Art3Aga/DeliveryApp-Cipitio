@@ -1,3 +1,4 @@
+import 'package:deliveryapplicacion/controladores/ordenes_controller.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/edit_dir_page.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 
 class PerfilPage extends StatelessWidget {
   final storage = new StorageCliente();
+  final _pedidosController = new OrdenesController();
 
   @override
   Widget build(BuildContext context) {
@@ -210,17 +212,19 @@ class PerfilPage extends StatelessWidget {
         onTap: () {
           Recursos().showMessageConfirmar(context, () {
             _cerrarSesion(context);
+            _pedidosController.cancelarOrden();
           }, 'Salir', '¿Seguro desea cerrar sesion?');
         });
   }
 
-  void _cerrarSesion(BuildContext context) {
+  void _cerrarSesion(BuildContext context) async {
     storage.emailStorage =
         ''; // Eliminar el email del storage para que salga de la app
     storage.nombreStorage =
         ''; // Eliminar el nombre del storage para que salga de la app
     storage.idClienteStorage =
         ''; // Eliminar el nombre del storage para que salga de la app
+
     Navigator.of(context).pushReplacementNamed('registro');
   }
 

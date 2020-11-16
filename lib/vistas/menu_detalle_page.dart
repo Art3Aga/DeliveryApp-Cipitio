@@ -8,16 +8,15 @@ import 'package:deliveryapplicacion/servicios/db_sqlite_service.dart';
 import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
 import 'package:deliveryapplicacion/vistas/ordenes_page.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class MenuDetalle extends StatefulWidget {
-
   @override
   _MenuDetalleState createState() => _MenuDetalleState();
 }
 
 class _MenuDetalleState extends State<MenuDetalle> {
-
   TextEditingController _notaController = new TextEditingController();
   int _cantidad = 1;
   final _pedidosController = new OrdenesController();
@@ -49,17 +48,10 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   Widget _cuadroTiempoEntrega(Size size) {
-
-    final styleMinutos = TextStyle(
-      color: Colors.white,
-      fontSize: 20
-    );
+    final styleMinutos = TextStyle(color: Colors.white, fontSize: 20);
 
     final styleMin = TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.w200
-    );
+        color: Colors.white, fontSize: 20, fontWeight: FontWeight.w200);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -69,18 +61,17 @@ class _MenuDetalleState extends State<MenuDetalle> {
           borderRadius: BorderRadius.circular(8),
           child: JelloIn(
             child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('30', style: styleMinutos),
-                  Text('Min', style: styleMin),
-                ],
-              ),
-              width: 80,
-              height: 60,
-              color: Recursos().colorSecundario
-            ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('30', style: styleMinutos),
+                    Text('Min', style: styleMin),
+                  ],
+                ),
+                width: 80,
+                height: 60,
+                color: Recursos().colorSecundario),
           ),
         ),
       ],
@@ -95,28 +86,30 @@ class _MenuDetalleState extends State<MenuDetalle> {
       floating: false,
       pinned: true,
       actions: [
-        IconButton(icon: Icon(Icons.share), onPressed: _compartir)
+        IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () {
+              _compartir(menu);
+            })
       ],
       flexibleSpace: FlexibleSpaceBar(
-        centerTitle: true,
-        background: Stack(
-          fit: StackFit.expand,
-          children: [
-            FadeInImage(
-              placeholder: AssetImage('assets/loading.gif'),
-              image: NetworkImage(menu.imagen),
-              fadeInDuration: Duration(microseconds: 180),
-              fit: BoxFit.cover
-            ),
-            Container(
-              color: Colors.black38,
-              width: double.infinity,
-            ),
-            _cuadroTiempoEntrega(size),
-            //_btnCompartir(),
-          ],
-        )
-      ),
+          centerTitle: true,
+          background: Stack(
+            fit: StackFit.expand,
+            children: [
+              FadeInImage(
+                  placeholder: AssetImage('assets/loading.gif'),
+                  image: NetworkImage(menu.imagen),
+                  fadeInDuration: Duration(microseconds: 180),
+                  fit: BoxFit.cover),
+              Container(
+                color: Colors.black38,
+                width: double.infinity,
+              ),
+              _cuadroTiempoEntrega(size),
+              //_btnCompartir(),
+            ],
+          )),
     );
   }
 
@@ -144,12 +137,17 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   Widget _nombrePrecioMenu(Size size, Menu menu) {
+<<<<<<< HEAD
 
 
     final styleNombreMenu = TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.w800
     );
+=======
+    final styleNombreMenu =
+        TextStyle(fontSize: 30, fontWeight: FontWeight.w800);
+>>>>>>> d5cc77813f48fb9b064b2cc4455aa7ebe6fb4a7c
 
     final stylePrecio = TextStyle(
       fontSize: 22,
@@ -159,6 +157,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
 
     return Flexible(
+<<<<<<< HEAD
       child: Container(
         width: size.width,
         padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
@@ -173,27 +172,38 @@ class _MenuDetalleState extends State<MenuDetalle> {
         ),
       )
     );
+=======
+        child: Container(
+      width: size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(menu.nombre, style: styleNombreMenu),
+          SizedBox(height: size.height * 0.05),
+          Text('\$${menu.precio}', style: stylePrecio),
+        ],
+      ),
+    ));
+>>>>>>> d5cc77813f48fb9b064b2cc4455aa7ebe6fb4a7c
   }
 
   Widget _descripcionMenu(Size size, Menu menu) {
-
-
-    final styleDescripcionMenu = TextStyle(
-      fontSize: 16,
-      color: Colors.black45
-    );
+    final styleDescripcionMenu = TextStyle(fontSize: 16, color: Colors.black45);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.03),
+      padding: EdgeInsets.symmetric(
+          horizontal: size.width * 0.05, vertical: size.height * 0.03),
       child: Text(menu.descripcion, style: styleDescripcionMenu),
     );
   }
 
   Widget _inputNota(Size size, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.05),
+      padding: EdgeInsets.symmetric(
+          horizontal: size.width * 0.05, vertical: size.height * 0.05),
       child: Theme(
-        data: Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
+        data:
+            Theme.of(context).copyWith(primaryColor: Recursos().colorPrimario),
         child: TextFormField(
           textCapitalization: TextCapitalization.sentences,
           controller: _notaController,
@@ -208,10 +218,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   Widget _seleccionarCantidad(Size size, Menu menu) {
-
-    final style = TextStyle(
-      fontSize: 20
-    );
+    final style = TextStyle(fontSize: 20);
 
     return Container(
       child: Column(
@@ -220,10 +227,9 @@ class _MenuDetalleState extends State<MenuDetalle> {
         children: [
           Container(
             child: Text('${this._cantidad}', style: style),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey)
-            ),
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: size.height * 0.01),
+            decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.1, vertical: size.height * 0.01),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -268,46 +274,48 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   void _addPedidoToOrden(BuildContext context, Menu menu) async {
-
-
     Pedido orden = new Pedido(
-      idCliente: _storage.idClienteStorage,
-      idMenuPromo: menu.idMenu,
-      nombre: menu.nombre,
-      descripcion: menu.descripcion,
-      imagen: menu.imagen,
-      precio: menu.precio,
-      cantidad: this._cantidad,
-      subtotal: menu.precio * this._cantidad
-    );
+        idCliente: _storage.idClienteStorage,
+        idMenuPromo: menu.idMenu,
+        nombre: menu.nombre,
+        descripcion: menu.descripcion,
+        imagen: menu.imagen,
+        precio: menu.precio,
+        cantidad: this._cantidad,
+        subtotal: menu.precio * this._cantidad);
 
     await _pedidosController.addPedido(orden);
-    
+
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => OrdenesPage(activarAppBar: true)
-      ));
+          builder: (context) => OrdenesPage(activarAppBar: true)));
     });
   }
 
   void _addCantidadToOrden() {
-    this._cantidad ++;
-    setState(() {
-      
-    });
+    this._cantidad++;
+    setState(() {});
   }
 
   void _removeCantidadToOrden() {
-    if(this._cantidad > 1) {
-      this._cantidad --;
+    if (this._cantidad > 1) {
+      this._cantidad--;
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
-  void _compartir() {
+  void _compartir(Menu menu) async {
+    final RenderBox box = context.findRenderObject();
 
+    if (menu.imagen.isNotEmpty) {
+      await Share.share('${menu.imagen} \n ${menu.descripcion}',
+          subject: 'subject',
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    }
+  }
+
+  _onShareWithEmptyOrigin(BuildContext context) async {
+    await Share.share("text");
   }
 }

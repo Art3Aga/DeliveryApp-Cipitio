@@ -19,6 +19,7 @@ class Grid extends StatelessWidget {
 
   List<TableRow> getRows(BuildContext context) {
     final List<TableRow> rows = new List<TableRow>();
+    Size size = MediaQuery.of(context).size;
     int nrows = (promos.length) ~/ columns;
     int mod = (promos.length) % columns;
     int index = 0;
@@ -33,7 +34,7 @@ class Grid extends StatelessWidget {
       final List<Widget> itemsPerRow = new List<Widget>();
       for (int j = 1; j <= columns; j++) {
         if (promos[index].menu.imagen != null) {
-          itemsPerRow.add(_item(promos[index], context));
+          itemsPerRow.add(_item(promos[index], context, size));
         } else {
           itemsPerRow.add(Container());
         }
@@ -45,24 +46,41 @@ class Grid extends StatelessWidget {
     return rows;
   }
 
-  Widget _item(Promocion promocion, BuildContext context) {
+  Widget _item(Promocion promocion, BuildContext context, Size size) {
+    String nombrePromo = promocion.menu.nombre;
+    if (nombrePromo.length >= 20) {
+      nombrePromo = nombrePromo.substring(0, 19) + ' ...';
+    }
+
     final card = Container(
       child: Column(
         children: [
           FadeInImage(
-            height: 80.0,
+            height: size.height * 0.12,
             placeholder: AssetImage('assets/loading.gif'),
             image: NetworkImage(promocion.menu.imagen),
             fit: BoxFit.fill,
           ),
           Container(
-              padding: EdgeInsets.all(25.0),
-              child: Text(
-                promocion.menu.nombre,
-                style: TextStyle(
-                  color: Recursos().colorPrimario,
+            padding: EdgeInsets.all(size.height * 0.009),
+            child: Column(
+              children: [
+                Text(
+                  nombrePromo,
+                  style: TextStyle(
+                    color: Recursos().colorPrimario,
+                  ),
                 ),
-              ))
+                Text(
+                  '\$ ${promocion.menu.precio.toString()}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Recursos().colorPrimario,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -70,10 +88,10 @@ class Grid extends StatelessWidget {
       return Container();
     } else {
       return Container(
-        height: 150.0,
-        margin: EdgeInsets.all(10.0),
+        height: size.height * 0.24,
+        margin: EdgeInsets.all(size.height * 0.009),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(size.height * 0.009),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -83,7 +101,7 @@ class Grid extends StatelessWidget {
                   offset: Offset(0.0, 0.5))
             ]),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(5.0),
+          borderRadius: BorderRadius.circular(size.height * 0.009),
           child: GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, 'menu_detalle',
