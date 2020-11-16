@@ -40,6 +40,13 @@ class Crud {
 
     return response.data;
   }
+  Future<dynamic> updatePhone(String idCliente, String phone) async {
+    final url = '$_urlLocal/api/clientes/actualizar_telefono';
+    Map<String, dynamic> data = {'id_cliente': idCliente, 'telefono': phone};
+    final response = await this._dio.post(url, data: data);
+
+    return response.data;
+  }
 
   Future<dynamic> registroDireccion(DireccionCliente direccion) async {
     final url = '$_url/api/clientes/nueva_direccion';

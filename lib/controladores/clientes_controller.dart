@@ -51,6 +51,18 @@ class ClientesController {
     return clienteTemp;
   }
 
+  Future<dynamic> updatePhone(String idCliente, String phone) async {
+    final data = await this._crud.updatePhone(idCliente, phone);
+
+    if (!data['ok']) {
+      return data['data'];
+    }
+
+    Cliente clienteTemp = Cliente.fromJson(data['cliente']);
+
+    return clienteTemp;
+  }
+
   Future<dynamic> registroDireccion(DireccionCliente direccion) async {
     final data = await this._crud.registroDireccion(direccion);
 

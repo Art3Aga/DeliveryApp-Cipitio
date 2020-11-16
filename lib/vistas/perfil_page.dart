@@ -31,11 +31,11 @@ class PerfilPage extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: size.height * 0.02),
-                  _saludo(),
+                  _holaMsg(),
                   SizedBox(height: size.height * 0.02),
-                  _saludo2(),
+                  _biembenidoMsg(),
                   SizedBox(height: size.height * 0.02),
-                  _saludo3()
+                  _myPhone()
                   //_body(size)
                 ],
               ),
@@ -56,19 +56,19 @@ class PerfilPage extends StatelessWidget {
     return Text('Mi Perfil', style: style);
   }
 
-  Widget _saludo() {
+  Widget _holaMsg() {
     final style = TextStyle(fontSize: 25.0, color: Recursos().colorPrimario);
     return Text('Hola ${storage.nombreStorage.split(' ')[0]}!', style: style);
   }
 
-  Widget _saludo2() {
+  Widget _biembenidoMsg() {
     final style = TextStyle(color: Recursos().colorPrimario);
     return Text('Bienvenido a El Cipitillo ', style: style);
   }
 
-  Widget _saludo3() {
+  Widget _myPhone() {
     final style = TextStyle(color: Recursos().colorPrimario);
-    return Text('+503 7861 9772 ', style: style);
+    return Text(storage.telefono, style: style, textAlign: TextAlign.start,);
   }
 
   Widget _icono(Size size) {

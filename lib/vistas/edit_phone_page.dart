@@ -1,8 +1,19 @@
+import 'package:deliveryapplicacion/controladores/clientes_controller.dart';
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 
-class EditPhone extends StatelessWidget {
+class EditPhone extends StatefulWidget {
+  @override
+  _EditPhoneState createState() => _EditPhoneState();
+}
+
+class _EditPhoneState extends State<EditPhone> {
   TextEditingController _telefono_controller = new TextEditingController();
+  bool _cargando = false;
+  final _change = new ClientesController();
+  StorageCliente sharedCliente = new StorageCliente();
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +37,12 @@ class EditPhone extends StatelessWidget {
                     _saludo(),
                     SizedBox(height: size.height * 0.05),
                     _saludo2(),
+                    _cargando
+                        ? Center(child: CupertinoActivityIndicator(radius: 25))
+                        : Container(),
                     SizedBox(height: size.height * 0.05),
                     //_body(size)
-                    _inputDireccion(size),
+                    _inputTelefono(size),
                     SizedBox(height: size.height * 0.05),
                     _botontelefono(size),
                   ],
@@ -41,7 +55,7 @@ class EditPhone extends StatelessWidget {
     );
   }
 
-  Widget _inputDireccion(Size size) {
+  Widget _inputTelefono(Size size) {
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: size.height * 0.015, horizontal: size.width * 0.1),
@@ -84,7 +98,7 @@ class EditPhone extends StatelessWidget {
         fontWeight: FontWeight.w900,
         fontSize: 25,
         color: Recursos().colorPrimario);
-    return Text('7777-7777', style: style);
+    return Text('${sharedCliente.telefono}', style: style);
   }
 
   Widget _icono(Size size) {
@@ -104,7 +118,7 @@ class EditPhone extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             vertical: size.height * 0.025, horizontal: size.width * 0.2),
         onPressed: () async {
-          _login();
+          _cambiarTelefono();
         },
         child: Text(
           'Confirmar Numero!',
@@ -117,7 +131,30 @@ class EditPhone extends StatelessWidget {
     );
   }
 
-  void _login() {
-    return;
+  void _cambiarTelefono() async {
+    if (_telefono_controller.text.isEmpty) {
+      Recursos().showMessageError(context, "Faltan Datos!");
+      return;
+    }
+
+    this._cargando = true;
+    setState(() {});
+
+    final response = await this
+        ._change
+        .updatePhone(sharedCliente.idClienteStorage, _telefono_controller.text);
+
+    if (response is Cliente) {
+      this._cargando = false;
+      setState(() {});
+      Recursos().showMessageSuccess(
+          context,
+          "Se ha cambiado el telefono a ${response.telefono}",
+          () => {sharedCliente.telefono = response.telefono, Navigator.pop(context), Navigator.pop(context)});
+    } else if (response is String) {
+      this._cargando = false;
+      setState(() {});
+      Recursos().showMessageError(context, response);
+    }
   }
 }
