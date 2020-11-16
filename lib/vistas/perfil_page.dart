@@ -19,7 +19,7 @@ class PerfilPage extends StatelessWidget {
     return Scaffold(
         body: Container(
       margin: EdgeInsets.only(top: size.width * 0.2),
-      child: Column(
+      child: SingleChildScrollView(child: Column(
         children: [
           _titulo(),
           SizedBox(height: size.height * 0.02),
@@ -42,9 +42,9 @@ class PerfilPage extends StatelessWidget {
             ],
           ),
           SizedBox(height: size.height * 0.05),
-          _options(context)
+          SingleChildScrollView(child: Column(children:_options(context),),),
         ],
-      ),
+      ),)
     ));
   }
 
@@ -90,25 +90,22 @@ class PerfilPage extends StatelessWidget {
     );
   }
 
-  Widget _options(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 35, horizontal: 10.0),
-      child: Column(
-        children: [
-          Divider(color: Recursos().colorPrimario),
-          _telefono(context),
-          Divider(color: Recursos().colorPrimario),
-          _clave(context),
-          Divider(color: Recursos().colorPrimario),
-          _historial(context),
-          Divider(color: Recursos().colorPrimario),
-          _direcciones(context),
-          Divider(color: Recursos().colorPrimario),
-          _btnSalir(context),
-          Divider(color: Recursos().colorPrimario),
-        ],
-      ),
-    );
+  List<Widget> _options(BuildContext context) {
+    final List<Widget> options = new List<Widget>();
+
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_telefono(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_clave(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_historial(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_direcciones(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_btnSalir(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+
+    return options;
   }
 
   Widget _telefono(BuildContext context) {
