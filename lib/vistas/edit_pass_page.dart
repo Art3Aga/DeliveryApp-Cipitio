@@ -1,11 +1,24 @@
+import 'package:deliveryapplicacion/controladores/clientes_controller.dart';
+import 'package:deliveryapplicacion/servicios/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class EditPass extends StatelessWidget {
+class EditPass extends StatefulWidget {
+  @override
+  _EditPassState createState() => _EditPassState();
+}
+
+class _EditPassState extends State<EditPass> {
   TextEditingController _password_controller = new TextEditingController();
+
   TextEditingController _password_confirmar_controller =
       new TextEditingController();
+  bool _cargando = false;
+  final _change = new ClientesController();
+  StorageCliente sharedCliente = new StorageCliente();
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +42,9 @@ class EditPass extends StatelessWidget {
                     _saludo(),
                     SizedBox(height: size.height * 0.05),
                     _inputpassword_actual(size),
+                    _cargando
+                        ? Center(child: CupertinoActivityIndicator(radius: 25))
+                        : Container(),
                     SizedBox(height: size.height * 0.05),
                     _saludo2(),
                     SizedBox(height: size.height * 0.05),
@@ -134,7 +150,7 @@ class EditPass extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             vertical: size.height * 0.025, horizontal: size.width * 0.2),
         onPressed: () async {
-          _login();
+          _cambiarClave();
         },
         child: Text(
           'Confirmar Cambios!',
@@ -147,7 +163,30 @@ class EditPass extends StatelessWidget {
     );
   }
 
-  void _login() {
-    return;
+  void _cambiarClave() async {
+    if (_password_controller.text.isEmpty ||
+        _password_confirmar_controller.text.isEmpty) {
+      Recursos().showMessageError(context, "Faltan Datos!");
+      return;
+    }
+
+    this._cargando = true;
+    setState(() {});
+
+    final response = await this._change.updateClave(
+        sharedCliente.idClienteStorage,
+        _password_controller.text,
+        _password_confirmar_controller.text);
+
+    if (response is Cliente) {
+      this._cargando = false;
+      setState(() {});
+      Recursos().showMessageSuccess(
+          context, "Se ha cambiado la contraseña exitosamente", () => {Navigator.pop(context), Navigator.pop(context)});
+    } else if (response is String) {
+      this._cargando = false;
+      setState(() {});
+      Recursos().showMessageError(context, response);
+    }
   }
 }
