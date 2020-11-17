@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         'menu_detalle': (context) => MenuDetalle(),
         'perfil': (context) => PerfilPage(),
         'acceso_gps': (context) => AccessoGpsPage(),
-        'promocion_detalle': (context) => PromocionesDetalle(),
+        'promocion_detalle': (context) => PromocionDetalle(),
         'loading': (context) => LoadingPage(),
         'administrar_direccion': (context) => AdministrarUbicacion(),
         'procesar_orden': (context) => ProcesarOrden(),
