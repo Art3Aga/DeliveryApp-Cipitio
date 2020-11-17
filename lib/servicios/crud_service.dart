@@ -33,13 +33,19 @@ class Crud {
     return response.data;
   }
 
-  Future<dynamic> updateClave(String idCliente, String clave, String claveNueva) async {
+  Future<dynamic> updateClave(
+      String idCliente, String clave, String claveNueva) async {
     final url = '$_urlLocal/api/clientes/actualizar_contra';
-    Map<String, dynamic> data = {'id_cliente': idCliente, 'clave': clave, 'clave_nueva': claveNueva};
+    Map<String, dynamic> data = {
+      'id_cliente': idCliente,
+      'clave': clave,
+      'clave_nueva': claveNueva
+    };
     final response = await this._dio.post(url, data: data);
 
     return response.data;
   }
+
   Future<dynamic> updatePhone(String idCliente, String phone) async {
     final url = '$_urlLocal/api/clientes/actualizar_telefono';
     Map<String, dynamic> data = {'id_cliente': idCliente, 'telefono': phone};
@@ -99,5 +105,17 @@ class Crud {
     final response = await this._dio.get(url);
 
     return response.data;
+  }
+
+  Future<dynamic> getPromos() async {
+    final url = '$_urlLocal/api/promos/lista';
+
+    try {
+      final response = await this._dio.get(url);
+
+      return response.data;
+    } catch (e) {
+      return e.toString();
+    }
   }
 }
