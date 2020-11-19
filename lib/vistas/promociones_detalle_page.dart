@@ -272,7 +272,7 @@ class _PromocionDetalleState extends State<PromocionDetalle> {
         imagen: promocion.imagen,
         precio: promocion.precio - promocion.descuento,
         cantidad: this._cantidad,
-        subtotal: promocion.precio - promocion.descuento * this._cantidad);
+        subtotal: (promocion.precio - promocion.descuento) * this._cantidad);
 
     await _pedidosController.addPedido(orden);
 
