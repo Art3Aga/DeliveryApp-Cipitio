@@ -33,7 +33,7 @@ class Grid extends StatelessWidget {
     for (int i = 1; i <= nrows; i++) {
       final List<Widget> itemsPerRow = new List<Widget>();
       for (int j = 1; j <= columns; j++) {
-        if (promos[index].menu.imagen != null) {
+        if (promos[index].imagen != null) {
           itemsPerRow.add(_item(promos[index], context, size));
         } else {
           itemsPerRow.add(Container());
@@ -47,9 +47,9 @@ class Grid extends StatelessWidget {
   }
 
   Widget _item(Promocion promocion, BuildContext context, Size size) {
-    String nombrePromo = promocion.menu.nombre;
-    if (nombrePromo.length >= 20) {
-      nombrePromo = nombrePromo.substring(0, 19) + ' ...';
+    String nombrePromo = promocion.titulo;
+    if (nombrePromo.length >= 25) {
+      nombrePromo = nombrePromo.substring(0, 23) + ' ...';
     }
 
     final card = Container(
@@ -58,11 +58,11 @@ class Grid extends StatelessWidget {
           FadeInImage(
             height: size.height * 0.12,
             placeholder: AssetImage('assets/loading.gif'),
-            image: NetworkImage(promocion.menu.imagen),
+            image: NetworkImage(promocion.imagen),
             fit: BoxFit.fill,
           ),
           Container(
-            padding: EdgeInsets.all(size.height * 0.009),
+            padding: EdgeInsets.all(size.height * 0.007),
             child: Column(
               children: [
                 Text(
@@ -72,10 +72,21 @@ class Grid extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '\$ ${promocion.menu.precio.toString()}',
+                  '\$ ${promocion.precio.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Recursos().colorPrimario,decorationStyle: TextDecorationStyle.solid,
+                    decorationColor: Colors.red,
+                    decorationThickness: 2.0,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+                Text(
+                  '\$ ${(promocion.precio -  promocion.descuento).toStringAsFixed(2)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Recursos().colorPrimario,
+                    
                   ),
                 ),
               ],
@@ -84,7 +95,7 @@ class Grid extends StatelessWidget {
         ],
       ),
     );
-    if (promocion.menu == null) {
+    if (promocion == null) {
       return Container();
     } else {
       return Container(
@@ -104,8 +115,8 @@ class Grid extends StatelessWidget {
           borderRadius: BorderRadius.circular(size.height * 0.009),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'menu_detalle',
-                  arguments: promocion.menu);
+              Navigator.pushNamed(context, 'promocion_detalle',
+                  arguments: promocion);
             },
             child: card,
           ),

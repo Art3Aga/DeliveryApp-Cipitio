@@ -19,7 +19,7 @@ class PerfilPage extends StatelessWidget {
     return Scaffold(
         body: Container(
       margin: EdgeInsets.only(top: size.width * 0.2),
-      child: Column(
+      child: SingleChildScrollView(child: Column(
         children: [
           _titulo(),
           SizedBox(height: size.height * 0.02),
@@ -31,20 +31,20 @@ class PerfilPage extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: size.height * 0.02),
-                  _saludo(),
+                  _holaMsg(),
                   SizedBox(height: size.height * 0.02),
-                  _saludo2(),
+                  _biembenidoMsg(),
                   SizedBox(height: size.height * 0.02),
-                  _saludo3()
+                  _myPhone()
                   //_body(size)
                 ],
               ),
             ],
           ),
           SizedBox(height: size.height * 0.05),
-          _options(context)
+          SingleChildScrollView(child: Column(children:_options(context),),),
         ],
-      ),
+      ),)
     ));
   }
 
@@ -56,19 +56,19 @@ class PerfilPage extends StatelessWidget {
     return Text('Mi Perfil', style: style);
   }
 
-  Widget _saludo() {
+  Widget _holaMsg() {
     final style = TextStyle(fontSize: 25.0, color: Recursos().colorPrimario);
     return Text('Hola ${storage.nombreStorage.split(' ')[0]}!', style: style);
   }
 
-  Widget _saludo2() {
+  Widget _biembenidoMsg() {
     final style = TextStyle(color: Recursos().colorPrimario);
     return Text('Bienvenido a El Cipitillo ', style: style);
   }
 
-  Widget _saludo3() {
+  Widget _myPhone() {
     final style = TextStyle(color: Recursos().colorPrimario);
-    return Text('+503 7861 9772 ', style: style);
+    return Text(storage.telefono, style: style, textAlign: TextAlign.start,);
   }
 
   Widget _icono(Size size) {
@@ -90,25 +90,22 @@ class PerfilPage extends StatelessWidget {
     );
   }
 
-  Widget _options(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 35, horizontal: 10.0),
-      child: Column(
-        children: [
-          Divider(color: Recursos().colorPrimario),
-          _telefono(context),
-          Divider(color: Recursos().colorPrimario),
-          _clave(context),
-          Divider(color: Recursos().colorPrimario),
-          _historial(context),
-          Divider(color: Recursos().colorPrimario),
-          _direcciones(context),
-          Divider(color: Recursos().colorPrimario),
-          _btnSalir(context),
-          Divider(color: Recursos().colorPrimario),
-        ],
-      ),
-    );
+  List<Widget> _options(BuildContext context) {
+    final List<Widget> options = new List<Widget>();
+
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_telefono(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_clave(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_historial(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_direcciones(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+    options.add(_btnSalir(context));
+    options.add(Divider(color: Recursos().colorPrimario));
+
+    return options;
   }
 
   Widget _telefono(BuildContext context) {

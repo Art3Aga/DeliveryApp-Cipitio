@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:deliveryapplicacion/controladores/promocion_controller.dart';
 import 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/modelos/promo_model.dart';
 import 'package:deliveryapplicacion/recursos/recursos.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PromocionesPage extends StatelessWidget {
+  final PromocionController _promocionController = new PromocionController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +76,7 @@ class PromocionesPage extends StatelessWidget {
 
   }*/
   Widget _proms() {
+<<<<<<< HEAD
     final List<Promocion> proms = [
       Promocion(
           idPromo: '0',
@@ -97,6 +100,19 @@ class PromocionesPage extends StatelessWidget {
     return Grid(
       promos: proms,
       columns: 3,
+=======
+    return FutureBuilder<List<Promocion>>(
+      future: _promocionController.getPromos(),
+      builder: (BuildContext context, AsyncSnapshot<List<Promocion>> snapshot) {
+        final promos = snapshot.data;
+
+        if (snapshot.hasData) {
+          return Grid(promos: promos, columns: 3,);
+        } else {
+          return Center(child: CupertinoActivityIndicator(radius: 25));
+        }
+      },
+>>>>>>> 564f85d9a41b4a6a1be2bbf7930d16cee046afe8
     );
   }
 

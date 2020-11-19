@@ -21,9 +21,17 @@ class StorageCliente {
   String get idClienteStorage {
     return _storage.getString('id_cliente') ?? '';
   }
-
+  
   set idClienteStorage( String idCliente ) {
     _storage.setString('id_cliente', idCliente);
+  }
+
+  //Telefono
+  String get telefono {
+    return _storage.getString('telefono') ?? '';
+  }
+   set telefono( String telefono ) {
+    _storage.setString('telefono', telefono);
   }
 
   // Nombre Cliente
