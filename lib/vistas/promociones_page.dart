@@ -76,17 +76,29 @@ class PromocionesPage extends StatelessWidget {
 
   }*/
   Widget _proms() {
-    return FutureBuilder<List<Promocion>>(
-      future: _promocionController.getPromos(),
-      builder: (BuildContext context, AsyncSnapshot<List<Promocion>> snapshot) {
-        final promos = snapshot.data;
-
-        if (snapshot.hasData) {
-          return Grid(promos: promos, columns: 3,);
-        } else {
-          return Center(child: CupertinoActivityIndicator(radius: 25));
-        }
-      },
+    final List<Promocion> proms = [
+      Promocion(
+          idPromo: '0',
+          ),
+      Promocion(
+          idPromo: '0',
+          ),
+      Promocion(
+          idPromo: '0',
+          ),
+      Promocion(
+          idPromo: '0',
+          ),
+      Promocion(
+          idPromo: '0',
+          ),
+      Promocion(
+          idPromo: '0',
+          )
+    ];
+    return Grid(
+      promos: proms,
+      columns: 3,
     );
   }
 

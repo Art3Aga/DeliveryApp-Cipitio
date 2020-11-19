@@ -64,12 +64,12 @@ class _OrdenesPageState extends State<OrdenesPage> {
 
   _body(Size size, BuildContext context) {
     return Container(
-      child: StreamBuilder<List<Pedido>>(
+      child: StreamBuilder<List<Menu>>(
         stream: _pedidosController.pedidosStream,
-        builder: (BuildContext context, AsyncSnapshot<List<Pedido>> snapshot){
+        builder: (BuildContext context, AsyncSnapshot<List<Menu>> snapshot){
 
           if(snapshot.hasData) {
-            List<Pedido> pedidos = snapshot.data;
+            List<Menu> pedidos = snapshot.data;
             return pedidos.length > 0 ? ListView.separated(
               shrinkWrap: true,
               itemBuilder: (_, i) => _itemOrden(pedidos[i], size, context), 
@@ -91,7 +91,7 @@ class _OrdenesPageState extends State<OrdenesPage> {
     );
   }
 
-  _itemOrden(Pedido pedido, Size size, BuildContext context) {
+  _itemOrden(Menu pedido, Size size, BuildContext context) {
 
     final styleTitle = TextStyle(
       fontSize: 14,
@@ -141,7 +141,7 @@ class _OrdenesPageState extends State<OrdenesPage> {
       trailing: _popupOpcionesOrden(size, pedido),
       onTap: (){
         Menu menu = new Menu(
-          idMenu: pedido.idMenuPromo,
+          idMenu: pedido.idMenu,
           nombre: pedido.nombre,
           descripcion: pedido.descripcion,
           imagen: pedido.imagen,
@@ -175,7 +175,7 @@ class _OrdenesPageState extends State<OrdenesPage> {
     );
   }
 
-  Widget _popupOpcionesOrden(Size size, Pedido pedido) {
+  Widget _popupOpcionesOrden(Size size, Menu pedido) {
     return PopupMenuButton(
       icon: Icon(Icons.more_vert),
       tooltip: 'Opciones',
@@ -184,7 +184,7 @@ class _OrdenesPageState extends State<OrdenesPage> {
           child: FlatButton(
             onPressed: (){
               Navigator.of(context).pop();
-              _pedidosController.deletePedido(pedido.idPedido);
+              _pedidosController.deletePedido(pedido.idMenu);
             },
             child: Row(children: <Widget>[Text('Eliminar de la Orden'), SizedBox(width: size.width * 0.01), Icon(Icons.delete, color: Colors.red)])
           ),
@@ -194,12 +194,12 @@ class _OrdenesPageState extends State<OrdenesPage> {
   }
 
   Widget _btnCancelarOrden(BuildContext context, Size size) {
-    return StreamBuilder<List<Pedido>>(
+    return StreamBuilder<List<Menu>>(
       stream: _pedidosController.pedidosStream,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
 
-          List<Pedido> pedidos = snapshot.data;
+          List<Menu> pedidos = snapshot.data;
 
           return pedidos.length > 0 ? Container(
             margin: EdgeInsets.symmetric(horizontal: size.width * 0.1, vertical: size.height * 0.05),

@@ -30,13 +30,18 @@ class Menu {
         this.descripcion,
         this.precio,
         this.imagen,
+        this.nota = '',
+        this.cantidad = 0,
+        this.subtotal = 0
     });
-    String uniqueID;
     String idMenu;
     String nombre;
     String descripcion;
     double precio;
     String imagen;
+    String nota;
+    int cantidad;
+    double subtotal;
 
     factory Menu.fromJson(Map<String, dynamic> json) => Menu(
         idMenu: json["id_menu"],
@@ -44,6 +49,9 @@ class Menu {
         descripcion: json["descripcion"],
         precio: json["precio"].toDouble(),
         imagen: json["imagen"],
+        nota: json["nota"],
+        cantidad: json["cantidad"],
+        subtotal: json["subtotal"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -52,5 +60,8 @@ class Menu {
         "descripcion": descripcion,
         "precio": precio,
         "imagen": imagen,
+        "nota": nota,
+        "cantidad": cantidad,
+        "subtotal": subtotal
     };
 }

@@ -21,35 +21,37 @@ class OrdenesController {
 
 
   //Propiedades
-  final _pedidosController = StreamController<List<Pedido>>.broadcast();
+  final _pedidosController = StreamController<List<Menu>>.broadcast();
   final _totalController = StreamController<double>.broadcast();
   final _crud = new Crud();
 
-  List<Pedido> pedidos = new List();
+  List<Menu> menus = new List();
   double total = 0;
+  double totalMenus = 0;
+  double totalPromos = 0;
 
-  Stream<List<Pedido>> get pedidosStream => _pedidosController.stream;
+  Stream<List<Menu>> get pedidosStream => _pedidosController.stream;
   Stream<double> get totalStream => _totalController.stream;
 
 
   getPedidos() async {
-    pedidos = await DBSQliteService.db.getPedidos();
-    _pedidosController.sink.add(await DBSQliteService.db.getPedidos());
+    menus = await DBSQliteService.db.getMenus();
+    _pedidosController.sink.add(await DBSQliteService.db.getMenus());
     getTotalPrecio();
   }
 
-  addPedido(Pedido orden) async {
-    await DBSQliteService.db.addPedido(orden);
+  addMenuToOrden(Menu menu) async {
+    await DBSQliteService.db.addMenuToOrden(menu);
     getPedidos();
   }
 
-  updatePedido(Pedido orden) async {
-    await DBSQliteService.db.updatePedido(orden);
+  updatePedido(Menu menu) async {
+    await DBSQliteService.db.updateMenuFromOrden(menu);
     getPedidos();
   }
 
-  deletePedido(String idOrden) async {
-    await DBSQliteService.db.deletePedido(idOrden);
+  deletePedido(String idMenu) async {
+    await DBSQliteService.db.deleteMenuFromOrden(idMenu);
     getPedidos();
   }
 
@@ -60,7 +62,10 @@ class OrdenesController {
 
   getTotalPrecio() async {
     _totalController.sink.add(await DBSQliteService.db.totalPrecioPedido());
-    total = await DBSQliteService.db.totalPrecioPedido();
+    totalMenus = await DBSQliteService.db.totalPrecioPedido();
+    totalPromos = await DBSQliteService.db.totalPrecioPedidoPromos();
+
+    //total = totalMenus + totalPromos;
   }
 
   Future<dynamic> nuevaOrden(Orden orden) async {
