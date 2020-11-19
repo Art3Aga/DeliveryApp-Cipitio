@@ -1,7 +1,10 @@
 
 
 import 'dart:io';
+import 'package:deliveryapplicacion/modelos/menu_model.dart';
+export 'package:deliveryapplicacion/modelos/menu_model.dart';
 import 'package:deliveryapplicacion/modelos/pedido_model.dart';
+import 'package:deliveryapplicacion/modelos/promo_model.dart';
 export 'package:deliveryapplicacion/modelos/pedido_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -32,24 +35,36 @@ class DBSQliteService {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, 'PedidosDB.db');
 
-    
-
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onOpen: (db) {},
       onConfigure: _onConfigure,
       onCreate: (Database db, int version) async {
         await _onConfigure(db);
         await db.execute(
-          'CREATE TABLE Pedidos ('
-          ' id_pedido TEXT,' 
-          ' id_cliente TEXT,' 
-          ' id_menu_promo TEXT,' 
+          'CREATE TABLE Menus ('
+          ' id_menu TEXT,' 
           ' nombre TEXT,' 
+          ' precio REAL,' 
           ' descripcion TEXT,' 
-          ' precio REAL,'
           ' imagen TEXT,' 
+          ' nota TEXT,' 
+          ' cantidad INTEGER,' 
+          ' subtotal REAL '
+          ')'
+        );
+
+        await db.execute(
+          'CREATE TABLE Promociones ('
+          ' id_promocion TEXT,' 
+          ' nombre TEXT,' 
+          ' precio REAL,' 
+          ' descripcion TEXT,' 
+          ' imagen TEXT,' 
+          ' nota TEXT,' 
+          ' menus TEXT,' 
+          ' descuento REAL,' 
           ' cantidad INTEGER,' 
           ' subtotal REAL '
           ')'
@@ -62,9 +77,15 @@ class DBSQliteService {
   //////////////////////   CRUD   ////////////////////////////////////
 
   //CREATE
-  Future<int> addPedido(Pedido pedido) async {
+  Future<int> addMenuToOrden(Menu menu) async {
     final db = await database;
-    final response = await db.insert('Pedidos', pedido.toJson());
+    final response = await db.insert('Menus', menu.toJson());
+    return response;
+  }
+
+  Future<int> addPromoToOrden(Promocion promo) async {
+    final db = await database;
+    final response = await db.insert('Promociones', promo.toJson());
     return response;
   }
 

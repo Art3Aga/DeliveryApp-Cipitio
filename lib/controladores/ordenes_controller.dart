@@ -38,8 +38,8 @@ class OrdenesController {
     getTotalPrecio();
   }
 
-  addPedido(Pedido orden) async {
-    await DBSQliteService.db.addPedido(orden);
+  addMenuToOrden(Menu menu) async {
+    await DBSQliteService.db.addMenuToOrden(menu);
     getPedidos();
   }
 

@@ -76,59 +76,23 @@ class PromocionesPage extends StatelessWidget {
   Widget _proms() {
     final List<Promocion> proms = [
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "0",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99)),
+          idPromo: '0',
+          ),
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "1",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99)),
+          idPromo: '0',
+          ),
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "2",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99)),
+          idPromo: '0',
+          ),
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "3",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99)),
+          idPromo: '0',
+          ),
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "4",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99)),
+          idPromo: '0',
+          ),
       Promocion(
-          idPromo: 0,
-          menu: Menu(
-              idMenu: "5",
-              descripcion: 'al suave',
-              imagen:
-                  'https://www.recetassalvador.com/base/stock/Recipe/38-image/38-image_web.jpg',
-              nombre: 'Menu 1',
-              precio: 2.99))
+          idPromo: '0',
+          )
     ];
     return Grid(
       promos: proms,

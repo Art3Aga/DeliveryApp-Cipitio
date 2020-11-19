@@ -137,17 +137,12 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   Widget _nombrePrecioMenu(Size size, Menu menu) {
-<<<<<<< HEAD
 
 
     final styleNombreMenu = TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.w800
     );
-=======
-    final styleNombreMenu =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.w800);
->>>>>>> d5cc77813f48fb9b064b2cc4455aa7ebe6fb4a7c
 
     final stylePrecio = TextStyle(
       fontSize: 22,
@@ -157,7 +152,6 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
 
     return Flexible(
-<<<<<<< HEAD
       child: Container(
         width: size.width,
         padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
@@ -172,19 +166,6 @@ class _MenuDetalleState extends State<MenuDetalle> {
         ),
       )
     );
-=======
-        child: Container(
-      width: size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(menu.nombre, style: styleNombreMenu),
-          SizedBox(height: size.height * 0.05),
-          Text('\$${menu.precio}', style: stylePrecio),
-        ],
-      ),
-    ));
->>>>>>> d5cc77813f48fb9b064b2cc4455aa7ebe6fb4a7c
   }
 
   Widget _descripcionMenu(Size size, Menu menu) {
@@ -274,7 +255,10 @@ class _MenuDetalleState extends State<MenuDetalle> {
   }
 
   void _addPedidoToOrden(BuildContext context, Menu menu) async {
-    Pedido orden = new Pedido(
+
+    menu.cantidad = this._cantidad;
+    menu.subtotal = menu.precio * this._cantidad;
+    /*Pedido orden = new Pedido(
         idCliente: _storage.idClienteStorage,
         idMenuPromo: menu.idMenu,
         nombre: menu.nombre,
@@ -284,7 +268,9 @@ class _MenuDetalleState extends State<MenuDetalle> {
         cantidad: this._cantidad,
         subtotal: menu.precio * this._cantidad);
 
-    await _pedidosController.addPedido(orden);
+    await _pedidosController.addPedido(orden);*/
+
+    await _pedidosController.addMenuToOrden(menu);
 
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();
