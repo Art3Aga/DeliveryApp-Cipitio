@@ -252,7 +252,7 @@ class _PromocionDetalleState extends State<PromocionDetalle> {
       margin: EdgeInsets.only(left: size.width * 0.09),
       child: RaisedButton(
         onPressed: () async {
-          _addPedidoToOrden(context, promocion);
+          _addPromoToOrden(context, promocion);
         },
         child: Text(
           'Agregar ${this._cantidad} a la Orden - \$${((promocion.precio - promocion.descuento) * this._cantidad).toStringAsFixed(2)}',
@@ -263,8 +263,8 @@ class _PromocionDetalleState extends State<PromocionDetalle> {
     );
   }
 
-  void _addPedidoToOrden(BuildContext context, Promocion promocion) async {
-    Pedido orden = new Pedido(
+  void _addPromoToOrden(BuildContext context, Promocion promocion) async {
+    /*Pedido orden = new Pedido(
         idCliente: _storage.idClienteStorage,
         idMenuPromo: promocion.idPromo,
         nombre: promocion.titulo,
@@ -274,7 +274,9 @@ class _PromocionDetalleState extends State<PromocionDetalle> {
         cantidad: this._cantidad,
         subtotal: promocion.precio - promocion.descuento * this._cantidad);
 
-    await _pedidosController.addPedido(orden);
+    await _pedidosController.addPedido(orden);*/
+
+    //Aqui iama el metodo de addPromoToOrden(promo), but primero hacelo xdxddxdxd (wacha el de menu_detalle)
 
     Recursos().showMessageSuccess(context, 'Agregado a la Orden!', () {
       Navigator.of(context).pop();

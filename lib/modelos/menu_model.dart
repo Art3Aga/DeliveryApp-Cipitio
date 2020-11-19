@@ -51,7 +51,7 @@ class Menu {
         imagen: json["imagen"],
         nota: json["nota"],
         cantidad: json["cantidad"],
-        subtotal: json["subtotal"].toDouble(),
+        subtotal: json["subtotal"],
     );
 
     Map<String, dynamic> toJson() => {

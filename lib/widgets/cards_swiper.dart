@@ -16,10 +16,7 @@ class CardSwiper extends StatelessWidget {
       height: size.height * 0.45,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          menus[index].uniqueID = "${menus[index].idMenu}-menu";
-          return Hero(
-            tag: Text(menus[index].uniqueID),
-            child: ClipRRect(
+          return ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
                 onTap: () {
@@ -34,8 +31,7 @@ class CardSwiper extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          );
+            );
         },
         itemCount: menus.length,
         layout: SwiperLayout.STACK,

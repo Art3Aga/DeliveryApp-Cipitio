@@ -90,45 +90,56 @@ class DBSQliteService {
   }
 
   //READ
-  Future<List<Pedido>> getPedidos() async {
+  Future<List<Menu>> getMenus() async {
     final db = await database;
-    final response = await db.rawQuery("SELECT * FROM Pedidos");
-    List<Pedido> pedidos = response.isNotEmpty 
-                                ? response.map((pedido) => Pedido.fromJson(pedido)).toList() : [];
-    return pedidos;
+    final response = await db.rawQuery("SELECT * FROM Menus");
+    List<Menu> menus = response.isNotEmpty 
+                                ? response.map((pedido) => Menu.fromJson(pedido)).toList() : [];
+    return menus;
   }
 
   Future<int> cantidadPedidos(String idPedido) async {
     final db = await database;
-    final response = await db.rawQuery('SELECT COUNT(*) AS pedidos FROM Pedidos WHERE id_pedido = $idPedido');
+    final response = await db.rawQuery('SELECT COUNT(*) AS pedidos FROM Menus WHERE id_pedido = $idPedido');
     int cantidadPedidos = Sqflite.firstIntValue(response);
     return cantidadPedidos;
   }
 
   Future<double> totalPrecioPedido() async {
     final db = await database;
-    final response = await db.rawQuery('SELECT SUM(subtotal) AS total FROM Pedidos');
-    double total = response.isNotEmpty ? response[0]['total'] : 0.0;
-    return total;
+    final response = await db.rawQuery('SELECT SUM(subtotal) AS totalMenus FROM Menus');
+    
+    double totalMenus = response.isNotEmpty ? response[0]['totalMenus'] : 0.0;
+    return totalMenus;
   }
 
-  //UPDATE
-  Future<int> updatePedido(Pedido pedido) async {
+  Future<double> totalPrecioPedidoPromos() async {
     final db = await database;
-    final response = await db.update('Pedidos', pedido.toJson(), where: 'id_pedido = ?', whereArgs: [pedido.idPedido]);
+    final response = await db.rawQuery('SELECT SUM(subtotal) AS totalPromos FROM Promociones');
+    
+    double totalPromos = response.isNotEmpty ? response[0]['totalPromos'] : 0.0;
+    return totalPromos;
+  }
+
+
+  //UPDATE
+  Future<int> updateMenuFromOrden(Menu menu) async {
+    final db = await database;
+    final response = await db.update('Menus', menu.toJson(), where: 'id_menu = ?', whereArgs: [menu.idMenu]);
     return response;
   }
 
   //DELETE
-  Future<int> deletePedido(String idPedido) async {
+  Future<int> deleteMenuFromOrden(String idMenu) async {
     final db = await database;
-    final response = await db.rawDelete('DELETE FROM Pedidos WHERE id_pedido = $idPedido');
+    final response = await db.rawDelete('DELETE FROM Menus WHERE id_menu = $idMenu');
     return response;
   }
 
   Future<int> deletePedidos() async {
     final db = await database;
-    final response = await db.rawDelete('DELETE FROM Pedidos');
+    final response = await db.rawDelete('DELETE FROM Menus');
+    await db.rawDelete('DELETE FROM Promociones');
     return response;
   }
 

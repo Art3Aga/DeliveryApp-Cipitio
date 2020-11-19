@@ -20,7 +20,7 @@ class SocketService {
     //'https://cipitiobackend.herokuapp.com'
     //'http://192.168.1.15:3000'
 
-     this._socket = IO.io('http://192.168.1.15:3000', {
+     this._socket = IO.io('http://192.168.1.21:3000', {
       'transports': ['websocket'],
       'autoConnect': true,
       'forceNew': true,

@@ -59,7 +59,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: JelloIn(
+          child: FadeInRight(
             child: Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,7 +243,7 @@ class _MenuDetalleState extends State<MenuDetalle> {
       margin: EdgeInsets.only(left: size.width * 0.09),
       child: RaisedButton(
         onPressed: () async {
-          _addPedidoToOrden(context, menu);
+          _addMenuToOrden(context, menu);
         },
         child: Text(
           'Agregar ${this._cantidad} a la Orden - \$${(menu.precio * this._cantidad).toStringAsFixed(2)}',
@@ -254,10 +254,11 @@ class _MenuDetalleState extends State<MenuDetalle> {
     );
   }
 
-  void _addPedidoToOrden(BuildContext context, Menu menu) async {
+  void _addMenuToOrden(BuildContext context, Menu menu) async {
 
     menu.cantidad = this._cantidad;
     menu.subtotal = menu.precio * this._cantidad;
+    menu.nota = _notaController.text.isEmpty ? '' : _notaController.text;
     /*Pedido orden = new Pedido(
         idCliente: _storage.idClienteStorage,
         idMenuPromo: menu.idMenu,
