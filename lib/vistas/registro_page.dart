@@ -197,7 +197,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
   void _registro() async {
     if (_nombreController.text.isEmpty || _telefonoController.text.isEmpty
-        || _claveController.text.isEmpty || _emailController.text.isEmpty || _direccionesController.text.isEmpty) {
+        || _claveController.text.isEmpty || _emailController.text.isEmpty) {
       Recursos().showMessageError(context, "Faltan Datos!");
       return;
     }

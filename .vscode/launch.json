@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DeliveryApp-Cipitio",
+            "name": "delivery_cipitio_app",
             "request": "launch",
             "type": "dart"
         }

@@ -27,7 +27,9 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           _body(size),
-          _cargando ? Center(child: CupertinoActivityIndicator(radius: 25)) : Container(),
+          _cargando
+              ? Center(child: CupertinoActivityIndicator(radius: 25))
+              : Container(),
         ],
       ),
     );
@@ -48,8 +50,17 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: size.height * 0.05),
                   _icono(size),
                   SizedBox(height: size.height * 0.1),
-                  Input(icon: Icons.email, placeholder: 'Email', textController: _emailController, keyboardType: TextInputType.emailAddress, textCapitalization: TextCapitalization.none),
-                  Input(icon: Icons.fiber_pin, placeholder: 'Clave', textController: _claveController, isPassword: true),
+                  Input(
+                      icon: Icons.email,
+                      placeholder: 'Email',
+                      textController: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      textCapitalization: TextCapitalization.none),
+                  Input(
+                      icon: Icons.fiber_pin,
+                      placeholder: 'Clave',
+                      textController: _claveController,
+                      isPassword: true),
                   SizedBox(height: size.height * 0.15),
                   _botonLogin(size),
                   SizedBox(height: size.height * 0.05),
@@ -91,11 +102,12 @@ class _LoginPageState extends State<LoginPage> {
       borderRadius: BorderRadius.circular(10),
       child: MaterialButton(
         padding: EdgeInsets.symmetric(
-            vertical: size.height * 0.025, horizontal: size.width * 0.2
-        ),
-        onPressed: !_cargando ? () async {
-          _login();
-        } : null,
+            vertical: size.height * 0.025, horizontal: size.width * 0.2),
+        onPressed: !_cargando
+            ? () async {
+                _login();
+              }
+            : null,
         child: Text(
           'Iniciar!',
           style: TextStyle(fontSize: 18),
@@ -109,9 +121,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _textRegistrarme() {
     final style = TextStyle(
-      color: Colors.grey, fontSize: 15, fontStyle: FontStyle.italic,
-      decoration: TextDecoration.underline
-    );
+        color: Colors.grey,
+        fontSize: 15,
+        fontStyle: FontStyle.italic,
+        decoration: TextDecoration.underline);
     return Container(
       child: GestureDetector(
         child: Text('¡Registrarme!', style: style),
@@ -122,9 +135,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _textOlvideMiClave() {
     final style = TextStyle(
-      color: Colors.grey, fontSize: 15, fontStyle: FontStyle.italic,
-      decoration: TextDecoration.underline
-    );
+        color: Colors.grey,
+        fontSize: 15,
+        fontStyle: FontStyle.italic,
+        decoration: TextDecoration.underline);
     return Container(
       child: GestureDetector(
         child: Text('¿Olvidaste tu contraseña?', style: style),
@@ -134,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
+    this._clientesController.registro(new Cliente());
 
     if (_emailController.text.isEmpty || _claveController.text.isEmpty) {
       Recursos().showMessageError(context, "Faltan Datos!");
@@ -143,27 +158,24 @@ class _LoginPageState extends State<LoginPage> {
     this._cargando = true;
     setState(() {});
 
-    Cliente cliente = new Cliente(clave: _claveController.text, email: _emailController.text);
+    Cliente cliente =
+        new Cliente(clave: _claveController.text, email: _emailController.text);
 
-    
     final response = await this._clientesController.login(cliente);
 
-    if(response is Cliente) {
+    if (response is Cliente) {
       this._cargando = false;
       setState(() {});
-      Recursos().showMessageSuccess(
-        context, "Bienvenido ${response.nombre}", () => _saveStorage(context, response));
-    }
-    else if (response is String) {
+      Recursos().showMessageSuccess(context, "Bienvenido ${response.nombre}",
+          () => _saveStorage(context, response));
+    } else if (response is String) {
       this._cargando = false;
       setState(() {});
       Recursos().showMessageError(context, response);
     }
-
   }
 
   _saveStorage(BuildContext context, Cliente cliente) async {
-
     final direccionActual = await _getDireccionActual(cliente);
 
     _storage.emailStorage = cliente.email;
@@ -176,11 +188,9 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.of(context).pushReplacementNamed('loading');
   }
 
-
   Future<DireccionCliente> _getDireccionActual(Cliente cliente) async {
-    final direcciones = await _clientesController.direccionesByCliente(cliente.idCliente);
+    final direcciones =
+        await _clientesController.direccionesByCliente(cliente.idCliente);
     return direcciones.firstWhere((direccion) => direccion.activo = true);
   }
-
-
 }

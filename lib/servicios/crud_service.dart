@@ -8,10 +8,11 @@ import 'package:dio/dio.dart';
 class Crud {
   final _dio = new Dio();
   final _url = 'https://cipitiobackend.herokuapp.com';
-  final _urlLocal = 'http://192.168.1.21:3000';
+  final _urlLocal = 'http://192.168.0.115:80/simerco/users';
 
   Future<dynamic> registro(Cliente cliente) async {
-    final url = '$_url/api/clientes/nuevo_cliente';
+    //final url = '$_url/api/clientes/nuevo_cliente';
+    final url = _urlLocal;
 
     Map<String, String> dataClient = {
       'nombre': cliente.nombre,
@@ -19,8 +20,9 @@ class Crud {
       'email': cliente.email,
       'clave': cliente.clave
     };
+    final response = await this._dio.get(url);
 
-    final response = await this._dio.post(url, data: dataClient);
+    //final response = await this._dio.post(url, data: dataClient);
 
     return response.data;
   }

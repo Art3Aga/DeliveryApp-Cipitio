@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storage = new StorageCliente();
-
     return MaterialApp(
       theme: ThemeData(primaryColor: Recursos().colorPrimario),
       debugShowCheckedModeBanner: false,

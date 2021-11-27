@@ -17,7 +17,7 @@ class Promos {
     }
 
   }
-
+  
 }
 Promocion promocionFromJson(String str) => Promocion.fromJson(json.decode(str));
 
